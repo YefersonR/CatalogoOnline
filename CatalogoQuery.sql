@@ -15,6 +15,14 @@ IsActive bit
 )
 go
 
+Create table Category(
+ID int primary key identity(1,1),
+CategoryName varchar(20),
+CategoryDescription text,
+IsActive bit
+)
+go
+
 Create table Products(
 ID int primary key identity(1,1),
 ProductName varchar(40),
@@ -22,15 +30,9 @@ UnitPrice Money,
 UnitInStock int,
 Garantie text,
 Discontinued bit,
-CategoryID int
-)
-go
+CategoryID int,
+FOREIGN KEY(CategoryID) REFERENCES Category(ID)
 
-Create table Category(
-ID int primary key identity(1,1),
-CategoryName varchar(20),
-CategoryDescription text,
-IsActive bit
 )
 go
 

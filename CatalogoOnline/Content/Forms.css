@@ -1,0 +1,121 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter&family=Montserrat:ital,wght@1,200&family=Poppins:wght@400;600&display=swap');
+
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+body {
+
+}
+.formContainer {
+    min-height:80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    max-width: 400px;
+    width: 100%;
+    min-height: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 1px 0px 10px #888888;
+}
+.form header{
+    font-size:22px;
+    text-align:center;
+    font-weight:600;
+    color:#333;
+}
+.form .formContent {
+    margin-top: 30px;
+    width: 100%;
+}
+.formContent .field {
+    height: 55px;
+    width: 90%;
+    margin: 20px;
+}
+.img{
+    height:70px;
+    margin-bottom:10px;
+}
+.field input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 0px 1.5px #888888;
+}
+.error{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:6px;
+    color:#d93025;
+    font-size:13px;
+}
+.formContent .buttons {
+    margin-top: 30px;
+}
+.formContent button, form a, .button {
+    color: #fff;
+    margin: 10px;
+    width: 90%;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+}
+.formContent button, .button{
+    background: #4070f4;
+}
+.formContent a {
+    text-decoration: none;
+    background: #4070f4;
+    color: #fff;
+    margin: 10px;
+    width: 200px;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.buttons {
+    text-align: center;
+}
+.buttons a {
+    text-decoration: none;
+    color: #110f0f;
+}
+.forgot:hover {
+    color: #c20000;
+}
+
+
+.containerHome{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+
+}
+
+.Filters{
+    width:20%;
+}
+.products {
+    width: 70%;
+}
+#Card{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:20px;
+}
+#Card .CardContainer {
+    padding:10px;
+    box-shadow: 0px 0px 1px #888888;
+}

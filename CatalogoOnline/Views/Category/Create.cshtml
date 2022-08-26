@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<div class="formContainer">
+    <div class="form">
+        <header>
+            Create Category
+        </header>
+
+        <form class="formContent" id="formValidate">
+            <div class="field">
+                <input id="CategoryName" name="CategoryName" placeholder="Enter category name" />
+            </div>
+            <div class="field">
+                <input id="CategoryDescription" name="CategoryDescription" placeholder="Enter category description" />
+            </div>
+            <button type="submit" style="margin-top:20px;">Create Category</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#formValidate").validate({
+        rules: {
+            CategoryName: {
+                required:true,
+                minlength:5
+            },
+            CategoryDescription: {
+                required: true,
+                minlength: 10
+
+            }
+        },
+        messages: {
+            CategoryName: {
+                required: "Please enter the category name",
+                minlength:"Name at least 5 character"
+            },
+            CategoryDescription: {
+                required: "Please enter the description of the category",
+                minlength: "Name at least 10 character"
+
+            }
+        }
+    })
+    $(document).on("submit", "#formValidate", function (e) {
+        e.preventDefault();
+        var productModel = {
+            "CategoryName": $('#CategoryName').val(),
+            "CategoryDescription": $('#CategoryDescription').val(),
+        }
+        console.log(productModel)
+        $.post('./Create', productModel)
+            .done(function (data) {
+                if (data != null) {
+                    window.location.href = "/Home/Index"
+                }
+            })
+    })
+
+</script>

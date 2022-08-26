@@ -1,0 +1,57 @@
+﻿<div class="formContainer">
+    <div class="form">
+        <header>
+            Login
+        </header>
+
+        <form class="formContent" id="formValidate">
+            <div class="field">
+                <input id="UserName" name="UserName" placeholder="Enter your username" />
+            </div>
+            <div class="field">
+                <input id="Password" name="Password" placeholder="Enter your password" />
+            </div>
+            <div class="buttons">
+                <button>Login</button>
+                <button>Register</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $("#formValidate").validate({
+        rules: {
+            UserName: {
+                required:true,
+                minlength:5
+            },
+            Password: {
+                required: true
+
+            }
+        },
+        messages: {
+            UserName: {
+                required: "Please enter your username"
+            },
+            Password: {
+                required: "Please enter your password"
+            }
+        }
+    })
+    $(document).on("submit", "#formValidate", function (e) {
+        e.preventDefault();
+        var productModel = {
+            "UserName": $('#UserName').val(),
+            "UserPassword": $('#Password').val(),
+        }
+        $.post('./Login', productModel)
+            .done(function (data) {
+                if (data != null) {
+                }
+            })
+    })
+</script>

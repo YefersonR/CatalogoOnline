@@ -1,0 +1,111 @@
+﻿
+<div class="formContainer">
+    <div class="form">
+        <header>
+            Crear detalle producto
+        </header>
+
+        <form class="formContent" id="formValidate" >
+            <div class="field">
+                <input id="ProductName" name="ProductName"  placeholder="Ingrese el nombre del producto"  />
+            </div>
+            <div class="field">
+                <input id="UnitPrice" name="UnitPrice" placeholder="Ingrese el precio por unidad" />
+            </div>
+            <div class="field">
+                <input id="UnitInStock" name="UnitInStock" placeholder="Unidades en el almacen" />
+            </div>
+            <div class="field">
+                <input id="Garantie" name="Garantie" placeholder="Garantia" />
+            </div>
+            <div  class="field" style="height:auto;">
+                <select id="Categories" class="form-select">
+                    <option value="0"> Categoria</option>
+                </select>
+            </div>
+             <button type="submit" style="margin-top:20px;">Crear Producto</button>
+        </form>
+    </div>
+</div>
+
+<script >
+    $("#formValidate").validate({
+        rules: {
+            ProductName: {
+                required:true,
+                minlength:5
+            },
+            UnitPrice: {
+                required: true
+
+            },
+            UnitInStock: {
+                required: true
+
+            },
+            Garantie: {
+                required: true
+            }
+        },
+        messages: {
+            ProductName: {
+                required: "Please enter the product name",
+                minlength:"Name at least 5 character"
+            },
+            UnitPrice: {
+                required: "Please enter the unit price"
+
+            },
+            UnitInStock: {
+                required: "Please enter the unit in stock"
+
+            },
+            Garantie: {
+                required: "Please enter the garantie for the product"
+
+            }
+
+        }
+    })
+    $(document).on("submit", "#formValidate", function (e) {
+        e.preventDefault();
+        var productModel = {
+            "ProductName": $('#ProductName').val(),
+            "UnitPrice": $('#UnitPrice').val(),
+            "UnitInStock": $('#UnitInStock').val(),
+            "Garantie": $('#Garantie').val(),
+            "CategoryID": $('#Categories').val()
+        }
+        $.post('./Create', productModel)
+            .done(function (data) {
+                if (data != null) {
+                    window.location.href = "/Home/Index"
+                }
+            })
+    })
+    window.onload = () => {
+        var urlCategory = "/Category/List"
+        $.ajax({
+            url: urlCategory,
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log(data);
+                $.map(data, (category) => {
+                    $("#Categories").append(
+                        "<option value=" + category.ID + ">" + category.CategoryName + "</option > "
+                    )
+                })
+
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        })
+     }
+    
+   
+
+</script>

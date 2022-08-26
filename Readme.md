@@ -18,9 +18,14 @@ Las peticiones fueron hechas con ajax usando jquery y las validaciones de los fo
 ## Uso
 
 1.Ejecutar el script de la base de dato.
+
 2.Iniciar el programa
+
 3.Crear categorias para poder asignarselas a los productos
-3.Crear productos con los campos requeridos
-*Para usar el buscador escriba el nombre del producto que desea buscar y presione enter
-*Para filtar por categoria debe seleccionar la categoria y presionar el boton filter 
+
+4.Crear productos con los campos requeridos
+
+* Para usar el buscador escriba el nombre del producto que desea buscar y presione enter
+
+* Para filtar por categoria debe seleccionar la categoria y presionar el boton filter 
 

@@ -122,7 +122,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -168,12 +167,10 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Category\Index.cshtml" />
-    <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Shared\LayoutUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -191,9 +188,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLayer2\BusinessLayer.csproj">
-      <Project>{f0d58667-d0c9-4a01-90a1-eb80b3652e55}</Project>
-      <Name>BusinessLayer</Name>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{7af61175-d1e2-411a-8295-f08dbdb92700}</Project>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

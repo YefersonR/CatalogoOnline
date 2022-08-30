@@ -1,141 +1,132 @@
-﻿using BusinessLayer.DTOS;
-using BusinessLayer.Services;
+﻿using Logic.BLL.DTOS;
+using Logic.BLL.Intefaces.Services;
+using Logic.BLL.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Mvc;
 
 namespace CatalogoOnline.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ProductService _productService = new ProductService();
+        private readonly IProductsService _productService = new ProductService();
 
         public ActionResult Create()
         {
-            return View();
+            var user = Session["user"];
+            if (user != null)
+            {
+                return Json(Url.Action("Index", "Home"));
+            }
+            return Json(Url.Action("Index", "User"));
         }
         [HttpPost]
-        public ActionResult Create(ProductsRequest request)
+        public ActionResult Create(ProductsViewModel request)
         {
-            try
+            var user = Session["user"];
+            if (user != null)
             {
-                _productService.AddProduct(request);
-                return RedirectToRoute(new {controller="Product", action="Index" }) ;
+                try
+                    {
+                        _productService.AddProduct(request);
+                        return Json(Url.Action("Index", "Home"));
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(ex.Message);
+                    }
             }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
+            return Json(Url.Action("Index", "User"));
+
         }
-        [HttpPut]
-        public ActionResult Update(ProductsRequest request)
-        {
-            try
-            {
-                
-                _productService.UpdateProduct(request);
-                return View();
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
-        }
+
         public ActionResult Index()
         {
-            return View();
+            var user = Session["user"];
+            if (user != null)
+            {
+                return View();
+            }
+            return Json(Url.Action("Index", "User"));
         }
 
         public ActionResult List()
         {
-            try
+            var user = Session["user"];
+            if (user != null)
             {
-                var result = _productService.GetAllProduct();
-                var json = JsonConvert.SerializeObject(result);
-                return Json(json, JsonRequestBehavior.AllowGet);
+                try
+                {
+                    var result = _productService.GetAllProduct();
+                    var json = JsonConvert.SerializeObject(result);
+                    return Json(json, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception ex)
+                {
+                    return Json(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
+            return Json(Url.Action("Index", "User"));
+
         }
 
         public ActionResult Search(string search)
         {
-            try
+            var user = Session["user"];
+            if (user != null)
             {
-                List<ProductsRequest> result = new List<ProductsRequest>();
-                string json = "";
-                if (search == " " || search == null)
+                try
                 {
-                    result = _productService.GetAllProduct();
+                    List<ProductsViewModel> result = new List<ProductsViewModel>();
+                    string json = "";
+                    if (search == " " || search == null)
+                    {
+                        result = _productService.GetAllProduct();
+                    }
+                    else
+                    {
+                        result = _productService.SearchProducts(search);
+                    }
+                    json = JsonConvert.SerializeObject(result);
+                    return Json(json, JsonRequestBehavior.AllowGet);
                 }
-                else
+                catch (Exception ex)
                 {
-                    result = _productService.SearchProducts(search);
+                    return Json(ex.Message);
                 }
-                json = JsonConvert.SerializeObject(result);
-                return Json(json, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
+            return Json(Url.Action("Index", "User"));
+
         }
 
         public ActionResult FilterByCategory(int CategoryId)
         {
-            try
+            var user = Session["user"];
+            if (user != null)
             {
-                List<ProductsRequest> result = new List<ProductsRequest>();
-                string json = ""; 
-                if (CategoryId == 0)
+                try
                 {
-                    result = _productService.GetAllProduct();
+                    List<ProductsViewModel> result = new List<ProductsViewModel>();
+                    string json = ""; 
+                    if (CategoryId == 0)
+                    {
+                        result = _productService.GetAllProduct();
+                    }
+                    else
+                    {
+                        result = _productService.FilterByCategory(CategoryId);
+                    }
+                        json = JsonConvert.SerializeObject(result);
+                        return Json(json, JsonRequestBehavior.AllowGet);
                 }
-                else
+                catch (Exception ex)
                 {
-                    result = _productService.FilterByCategory(CategoryId);
+                    return Json(ex.Message);
                 }
-                    json = JsonConvert.SerializeObject(result);
-                    return Json(json, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
-        }
+            return Json(Url.Action("Index", "User"));
 
-        [HttpGet]
-        public ActionResult GetById(int id)
-        {
-            try
-            {
-                var result =  _productService.GetProductById(id);
-                return View(result);
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
-        }
-
-        [HttpDelete]
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                _productService.DeleteProduct(id);
-                return View();
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
         }
 
     }

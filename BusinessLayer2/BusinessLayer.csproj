@@ -50,11 +50,5 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DatasLayer\DataLayer.csproj">
-      <Project>{45f0a142-119b-4e5f-a8cc-642d83f297e1}</Project>
-      <Name>DataLayer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

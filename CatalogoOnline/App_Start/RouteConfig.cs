@@ -16,8 +16,15 @@ namespace CatalogoOnline
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name:"LoginHome",
+                url: "{controller}/{action}",
+                defaults:new {controler="Home", action="Index"}
+                );
+
+
         }
     }
 }

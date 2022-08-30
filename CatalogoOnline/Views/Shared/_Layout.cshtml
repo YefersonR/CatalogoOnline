@@ -27,7 +27,8 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Create Products", "Create", "Product")</li>
-                        <li>@Html.ActionLink("Create Categories", "Create", "Category")</li>
+                        <li style="padding-top:15px;">@ViewBag.user.UserName</li>
+                        <li>@Html.ActionLink("LogOut", "LogOut", "User")</li>
 
                     </ul>
                 </div>

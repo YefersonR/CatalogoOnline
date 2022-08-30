@@ -73,16 +73,7 @@ body {
     background: #4070f4;
 }
 .formContent a {
-    text-decoration: none;
-    background: #4070f4;
-    color: #fff;
-    margin: 10px;
-    width: 200px;
-    outline: none;
-    border-radius: 5px;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+  
 }
 
 .buttons {
@@ -90,7 +81,15 @@ body {
 }
 .buttons a {
     text-decoration: none;
-    color: #110f0f;
+    color: #000;
+    background:#fff;
+    margin: 10px;
+    width: 500px;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
 }
 .forgot:hover {
     color: #c20000;

@@ -11,15 +11,25 @@ Email varchar(50),
 Addres varchar(60),
 UserName varchar(40),
 UserPassword varchar(30),
-IsActive bit
+IsActive bit,
+Autor varchar(20),
+FechaCreacion DateTime,
+FechaActualizacion DateTime
 )
 go
+
+
+
+
 
 Create table Category(
 ID int primary key identity(1,1),
 CategoryName varchar(20),
 CategoryDescription text,
-IsActive bit
+IsActive bit,
+Autor varchar(20),
+FechaCreacion DateTime,
+FechaActualizacion DateTime
 )
 go
 
@@ -31,6 +41,9 @@ UnitInStock int,
 Garantie text,
 Discontinued bit,
 CategoryID int,
+Autor varchar(20),
+FechaCreacion DateTime,
+FechaActualizacion DateTime
 FOREIGN KEY(CategoryID) REFERENCES Category(ID)
 
 )
@@ -39,7 +52,10 @@ go
 --Inserts
 CREATE PROCEDURE InsertCategory
 	@CategoryName varchar(20),
-	@CategoryDescription text
+	@CategoryDescription text,
+	@Autor varchar(20),
+	@FechaCreacion DateTime,
+	@FechaActualizacion DateTime
 AS
 	insert into Category
 	values(@CategoryName,@CategoryDescription,1);
@@ -51,7 +67,10 @@ CREATE PROCEDURE InsertProduct
 	@UnitInStock smallint,
 	@Garantie text,
 	@Discontinued bit,
-	@CategoryID int
+	@CategoryID int,
+	@Autor varchar(20),
+	@FechaCreacion DateTime,
+	@FechaActualizacion DateTime
 AS
 	insert into Products
 	values(@ProductName,@UnitPrice,@UnitInStock,@Garantie,@Discontinued,@CategoryID);
@@ -65,7 +84,10 @@ CREATE PROCEDURE InsertUser
 	@Address varchar(60),
 	@UserName varchar(40),
 	@UserPassword varchar(30),
-	@IsActive bit
+	@IsActive bit,
+	@Autor varchar(20),
+	@FechaCreacion DateTime,
+	@FechaActualizacion DateTime
 AS
 	insert into Users
 	values(@FirstName,@LastName,@PhoneNumber,@Email,@Address,@UserName,@UserPassword,@IsActive);
@@ -99,7 +121,10 @@ CREATE PROCEDURE SetProducts
 	@UnitInStock smallint,
 	@Garantie text,
 	@Discontinued bit,
-	@CategoryID int
+	@CategoryID int,
+	@Autor varchar(20),
+	@FechaCreacion DateTime,
+	@FechaActualizacion DateTime
 
 AS
 	UPDATE Products
@@ -117,7 +142,10 @@ CREATE PROCEDURE SetCategorys
 	@ID int,
 	@CategoryName varchar(20),
 	@CategoryDescription text,
-	@IsActive bit
+	@IsActive bit,
+	@Autor varchar(20),
+	@FechaCreacion DateTime,
+	@FechaActualizacion DateTime
 AS
 	UPDATE Category
 	SET CategoryName = @CategoryName,
@@ -135,7 +163,10 @@ CREATE PROCEDURE SetUsers
 	@Address varchar(60),
 	@UserName varchar(40),
 	@UserPassword varchar(30),
-	@IsActive bit
+	@IsActive bit,
+	@Autor varchar(20),
+	@FechaCreacion DateTime,
+	@FechaActualizacion DateTime
 AS
 	UPDATE Products
 	SET @FirstName = @FirstName,

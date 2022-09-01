@@ -1,13 +1,12 @@
-﻿
-<div class="formContainer">
+﻿<div class="formContainer">
     <div class="form">
         <header>
             Crear detalle producto
         </header>
 
-        <form class="formContent" id="formValidate" >
+        <form class="formContent" id="formValidate">
             <div class="field">
-                <input id="ProductName" name="ProductName"  placeholder="Ingrese el nombre del producto"  />
+                <input id="ProductName" name="ProductName" placeholder="Ingrese el nombre del producto" />
             </div>
             <div class="field">
                 <input id="UnitPrice" name="UnitPrice" placeholder="Ingrese el precio por unidad" />
@@ -18,22 +17,26 @@
             <div class="field">
                 <input id="Garantie" name="Garantie" placeholder="Garantia" />
             </div>
-            <div  class="field" style="height:auto;">
+            <div class="field" style="height:auto;">
                 <select id="Categories" class="form-select">
                     <option value="0"> Categoria</option>
                 </select>
             </div>
-             <button type="submit" style="margin-top:20px;">Crear Producto</button>
+            <div class="buttons">
+                <button type="submit" style="margin-top:20px;">Crear Producto</button>
+                <a href="/Product/Index">Atras</a>
+            </div>
+
         </form>
     </div>
 </div>
 
-<script >
+<script>
     $("#formValidate").validate({
         rules: {
             ProductName: {
-                required:true,
-                minlength:5
+                required: true,
+                minlength: 5
             },
             UnitPrice: {
                 required: true
@@ -50,7 +53,7 @@
         messages: {
             ProductName: {
                 required: "Please enter the product name",
-                minlength:"Name at least 5 character"
+                minlength: "Name at least 5 character"
             },
             UnitPrice: {
                 required: "Please enter the unit price"
@@ -84,7 +87,7 @@
             })
     })
     window.onload = () => {
-        var urlCategory = "/Product/ListCategory"
+        var urlCategory = "/Category/List"
         $.ajax({
             url: urlCategory,
             method: "GET",
@@ -104,8 +107,8 @@
                 console.error(err);
             }
         })
-     }
-    
-   
+    }
+
+
 
 </script>

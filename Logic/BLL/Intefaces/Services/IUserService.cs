@@ -14,7 +14,8 @@ namespace Logic.BLL.Intefaces.Services
         UserViewModel Login(LoginViewModel request);
         void UpdateUser(UserViewModel request);
         void DeleteUser(int Id);
-
+        List<UserViewModel> GetAllProduct();
+        UserViewModel GetUserById(int Id);
 
     }
 }

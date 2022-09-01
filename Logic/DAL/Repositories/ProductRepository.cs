@@ -224,7 +224,7 @@ namespace DataLayer.Repositories
                 {
                     product.ID = reader.GetInt32(0);
                     product.ProductName = reader.GetString(1);
-                    product.UnitPrice = reader.GetInt32(2);
+                    product.UnitPrice = reader.GetSqlMoney(2).ToDouble();
                     product.UnitInStock = reader.GetInt32(3);
                     product.Garantie = reader.GetString(4);
                     product.Discontinued = reader.GetBoolean(5);

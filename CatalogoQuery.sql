@@ -54,11 +54,10 @@ CREATE PROCEDURE InsertCategory
 	@CategoryName varchar(20),
 	@CategoryDescription text,
 	@Autor varchar(20),
-	@FechaCreacion DateTime,
-	@FechaActualizacion DateTime
+	@FechaCreacion DateTime
 AS
-	insert into Category
-	values(@CategoryName,@CategoryDescription,1);
+	insert into Category(CategoryName,CategoryDescription,CategoryDescription,IsActive,Autor,FechaCreacion)
+	values(@CategoryName,@CategoryDescription,1,@Autor,@FechaCreacion);
 GO
 
 CREATE PROCEDURE InsertProduct
@@ -69,11 +68,10 @@ CREATE PROCEDURE InsertProduct
 	@Discontinued bit,
 	@CategoryID int,
 	@Autor varchar(20),
-	@FechaCreacion DateTime,
-	@FechaActualizacion DateTime
+	@FechaCreacion DateTime
 AS
-	insert into Products
-	values(@ProductName,@UnitPrice,@UnitInStock,@Garantie,@Discontinued,@CategoryID);
+	insert into Products(ProductName,UnitPrice,UnitInStock,Garantie,Discontinued,CategoryID,Autor,FechaCreacion)
+	values(@ProductName,@UnitPrice,@UnitInStock,@Garantie,@Discontinued,@CategoryID,@Autor,@FechaCreacion);
 GO
 
 CREATE PROCEDURE InsertUser
@@ -86,11 +84,10 @@ CREATE PROCEDURE InsertUser
 	@UserPassword varchar(30),
 	@IsActive bit,
 	@Autor varchar(20),
-	@FechaCreacion DateTime,
-	@FechaActualizacion DateTime
+	@FechaCreacion DateTime
 AS
-	insert into Users
-	values(@FirstName,@LastName,@PhoneNumber,@Email,@Address,@UserName,@UserPassword,@IsActive);
+	insert into Users(FirstName,LastName,PhoneNumber,Email,Addres,UserName,UserPassword,IsActive,Autor,FechaCreacion)
+	values(@FirstName,@LastName,@PhoneNumber,@Email,@Address,@UserName,@UserPassword,@IsActive,@Autor,@FechaCreacion);
 GO
 
 
@@ -123,7 +120,6 @@ CREATE PROCEDURE SetProducts
 	@Discontinued bit,
 	@CategoryID int,
 	@Autor varchar(20),
-	@FechaCreacion DateTime,
 	@FechaActualizacion DateTime
 
 AS
@@ -133,8 +129,9 @@ AS
 	UnitInStock = @UnitInStock,
 	Garantie = @Garantie,
 	Discontinued= @Discontinued,
-	CategoryID = @CategoryID
-
+	CategoryID = @CategoryID,
+	Autor = @Autor,
+	FechaActualizacion=@FechaActualizacion
 	WHERE ID = @ID;
 GO
 
@@ -144,13 +141,14 @@ CREATE PROCEDURE SetCategorys
 	@CategoryDescription text,
 	@IsActive bit,
 	@Autor varchar(20),
-	@FechaCreacion DateTime,
 	@FechaActualizacion DateTime
 AS
 	UPDATE Category
 	SET CategoryName = @CategoryName,
 	CategoryDescription = @CategoryDescription,
-	IsActive= @IsActive
+	IsActive= @IsActive,
+	Autor=@Autor,
+	FechaActualizacion=@FechaActualizacion
 	WHERE ID = @ID;
 GO
 
@@ -165,18 +163,18 @@ CREATE PROCEDURE SetUsers
 	@UserPassword varchar(30),
 	@IsActive bit,
 	@Autor varchar(20),
-	@FechaCreacion DateTime,
 	@FechaActualizacion DateTime
 AS
-	UPDATE Products
-	SET @FirstName = @FirstName,
-	@LastName = @LastName,
-	@PhoneNumber = @PhoneNumber,
-	@Email = @Email,
-	@Address= @Address,
-	@UserName= @UserName,
-	@UserPassword= @UserPassword,
-	@IsActive= @IsActive
+	UPDATE Users
+	SET FirstName = @FirstName,
+	LastName = @LastName,
+	PhoneNumber = @PhoneNumber,
+	Email = @Email,
+	Addres= @Address,
+	UserName= @UserName,
+	UserPassword= @UserPassword,
+	IsActive= @IsActive,
+	FechaActualizacion =@FechaActualizacion 
 	WHERE ID = @ID;
 GO
 
@@ -190,6 +188,10 @@ CREATE PROCEDURE GetAllCategory
 AS
 	select * from Category
 GO
+CREATE PROCEDURE GetAllUsers
+AS
+	select * from Users
+GO
 
 CREATE PROCEDURE GetCategoryById
 	@ID int
@@ -201,6 +203,12 @@ CREATE PROCEDURE GetProductById
 	@ID int
 AS
 	select * from Products where ID = @ID
+GO
+
+CREATE PROCEDURE GetUserById
+	@ID int
+AS
+	select * from Users where ID = @ID
 GO
 
 CREATE PROCEDURE SearchProducts

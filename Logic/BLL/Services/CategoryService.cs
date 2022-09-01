@@ -49,5 +49,18 @@ namespace Logic.BLL.Services
 
             return categoryResquest;
         }
+        public CategoryViewModel GetByIdCategory(int id)
+        {
+            var category = _categoryRepository.GetById(id);
+            CategoryViewModel categoryResquest = new CategoryViewModel()
+            {
+                ID = category.ID,
+                CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription,
+                IsActive = category.IsActive
+            };
+
+            return categoryResquest;
+        }
     }
 }

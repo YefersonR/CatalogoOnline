@@ -1,7 +1,7 @@
 ﻿<div>
     <div class="row">
         <div class="add">
-            <a href="/User/Register" class="btn btn-success ">Agregar </a>
+            <a href="/Product/Create" class="btn btn-success ">Agregar </a>
         </div>
         <div class="col-4 mb-3">
             <div class="card shadow-sm">
@@ -14,21 +14,34 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title" id="myModalLabel">Edit Category</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit product</h4>
             </div>
             <div class="modal-body">
                 <form class="formContent" id="formValidate">
-                    <input id="CategoryID" name="CategoryID" type="hidden" />
+                    <input id="ID" name="ID" type="hidden" />
+
                     <div class="field">
-                        <input id="CategoryName" name="CategoryName" placeholder="Enter category name" />
+                        <input id="ProductName" name="ProductName" placeholder="Ingrese el nombre del producto" />
                     </div>
                     <div class="field">
-                        <input id="CategoryDescription" name="CategoryDescription" placeholder="Enter category description" />
+                        <input id="UnitPrice" name="UnitPrice" placeholder="Ingrese el precio por unidad" />
+                    </div>
+                    <div class="field">
+                        <input id="UnitInStock" name="UnitInStock" placeholder="Unidades en el almacen" />
+                    </div>
+                    <div class="field">
+                        <input id="Garantie" name="Garantie" placeholder="Garantia" />
+                    </div>
+                    <div class="field" style="height:auto;">
+                        <select id="Categories" class="form-select">
+                            <option value="0"> Categoria</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -41,7 +54,7 @@
 </div>
 <script>
     window.onload = () => {
-        var url = "/Category/List"
+        var url = "/Product/List"
         $.ajax({
             url: url,
             method: "GET",
@@ -49,21 +62,21 @@
             contentType: "application/json",
             success: function (data) {
                 data = JSON.parse(data);
-                console.log(data);
-                $.map(data, (category) => {
+                $.map(data, (product) => {
                     $("#Card").append(
                         "<div class='CardContainer'>" +
-                        "<h3>" + category.CategoryName + "</h3>" +
+                        "<h3>" + product.ProductName + "</h3>" +
                         "<div class='d-flex justify-content-between'>" +
-                        "<p class='card-text'>" + category.CategoryDescription + "</p>" +
+                        "<p class='card-text'> Price:" + product.UnitPrice + "</p>" +
                         "<small class='fw-bold'></small>" +
                         "</div>" +
                         "<div class='d-flex justify-content-between'>" +
-                        "<small class='fw-bold'>" + category.IsActive + "</small>" +
-                        "<small class='fw-bold'>" + category.ID + "</small>" +
+                        "<small class='fw-bold'> In Stock:" + product.UnitInStock + "</small> <br>" +
+                        "<small class='fw-bold'> Garantie:" + product.Garantie + "</small>" +
+                        "</div>" +
                         "<div class='btn-group'>" +
-                        "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='getbyID(" + category.ID + ")'>Edit</button>" +
-                        "<a class='btn btn-danger' onclick='Delete(" + category.ID + ")'>Borrar</a>" +
+                        "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='getbyID(" + product.ID + ")'>Edit</button>" +
+                        "<a class='btn btn-danger' onclick='Delete(" + product.ID + ")'>Borrar</a>" +
                         "</div>"
                     )
                 })
@@ -75,10 +88,10 @@
         })
     }
     function Delete(ID) {
-        var category = {
+        var product = {
             "ID": ID
         }
-        $.post('/Category/Delete', category)
+        $.post('/Product/Delete', product)
             .done(function (data) {
                 if (data != null) {
                     window.location.href = data
@@ -88,10 +101,9 @@
                 console.log(data)
             })
     }
-
     function getbyID(ID) {
         $.ajax({
-            url: "/Category/GetID",
+            url: "/Product/GetID",
             method: "GET",
             dataType: "json",
             contentType: "application/json",
@@ -100,9 +112,12 @@
             },
             success: function (data) {
                 data = JSON.parse(data);
-                $('#CategoryID').val(data.ID);
-                $('#CategoryName').val(data.CategoryName);
-                $('#CategoryDescription').val(data.CategoryDescription);
+                $('#ID').val(data.ID);
+                $('#ProductName').val(data.ProductName);
+                $('#UnitPrice').val(data.UnitPrice);
+                $('#Garantie').val(data.Garantie);
+                $('#UnitInStock').val(data.UnitInStock);
+                $('#CategoryID').val(data.CategoryID);
 
             },
             error: function (err) {
@@ -113,9 +128,11 @@
 
     function Update() {
         var productModel = {
-            "ID": $('#CategoryID').val(),
-            "CategoryName": $('#CategoryName').val(),
-            "CategoryDescription": $('#CategoryDescription').val(),
+            "ProductName": $('#ProductName').val(),
+            "UnitPrice": $('#UnitPrice').val(),
+            "UnitInStock": $('#UnitInStock').val(),
+            "Garantie": $('#Garantie').val(),
+            "CategoryID": $('#Categories').val()
         }
         console.log(productModel)
         $.post('./Update', productModel)

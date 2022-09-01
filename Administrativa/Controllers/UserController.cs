@@ -2,6 +2,7 @@
 using Logic.BLL.Intefaces.Services;
 using Logic.BLL.Services;
 using Logic.BLL.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
 
@@ -51,12 +52,12 @@ namespace Administrativa.Controllers
             }
         }
        
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public ActionResult Delete(UserViewModel request)
         {
             try
             {
-                _userService.DeleteUser(id);
+                _userService.DeleteUser(request.ID);
                 return Json(Url.Action("Index", "User"));
 
             }
@@ -64,6 +65,32 @@ namespace Administrativa.Controllers
             {
                 return Json(ex);
 
+            }
+        }
+        public ActionResult List()
+        {
+            try
+            {
+                var result = _userService.GetAllProduct();
+                var json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+        public JsonResult GetID(ProductsViewModel request)
+        {
+            try
+            {
+                var result = _userService.GetUserById(request.ID);
+                var json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
             }
         }
     }

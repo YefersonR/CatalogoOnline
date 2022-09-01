@@ -11,6 +11,7 @@ namespace CatalogoOnline.Controllers
     public class ProductController : Controller
     {
         private readonly IProductsService _productService = new ProductService();
+        private readonly ICategoryService _categoryService = new CategoryService();
 
         public ActionResult Create()
         {
@@ -69,6 +70,20 @@ namespace CatalogoOnline.Controllers
             }
             return Json(Url.Action("Index", "User"));
 
+        }
+
+        public JsonResult ListCategory()
+        {
+            try
+            {
+                var result = _categoryService.GetAllCategory();
+                var json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
 
         public ActionResult Search(string search)

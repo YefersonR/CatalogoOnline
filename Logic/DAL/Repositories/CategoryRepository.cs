@@ -45,6 +45,8 @@ namespace Logic.DAL.Repositories
                 command.Parameters.AddWithValue("@ID", category.ID);
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
+                command.Parameters.AddWithValue("@IsActive", true);
+
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -101,6 +103,39 @@ namespace Logic.DAL.Repositories
                     categories.Add(category);
                 }
                 return categories;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _DBConnection.CloseConnection();
+
+            }
+        }
+        public Category GetById(int Id)
+        {
+            try
+            {
+                var command = _DBConnection.CreateCommand();
+                command.CommandText = "GetCategoryById";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@ID", Id);
+                _DBConnection.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                Category category = new Category();
+                while (reader.Read())
+                {
+                    category.ID = reader.GetInt32(0);
+                    category.CategoryName = reader.GetString(1);
+                    category.CategoryDescription = reader.GetString(2);
+                    category.IsActive = reader.GetBoolean(3);
+
+                }
+                return category;
 
             }
             catch (Exception ex)

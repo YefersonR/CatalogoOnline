@@ -134,6 +134,80 @@ namespace DataLayer.Repositories
                 _DBConnection.CloseConnection();
             }
         }
+        public List<User> GetUsers()
+        {
+            try
+            {
+                var command = _DBConnection.CreateCommand();
+                command.CommandText = "GetAllUsers";
+                command.CommandType = CommandType.StoredProcedure;
+
+                _DBConnection.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                List<User> users = new List<User>();
+                while (reader.Read())
+                {
+                    User user = new User();
+                    user.ID = reader.GetInt32(0);
+                    user.FirstName = reader.GetString(1);
+                    user.LastName = reader.GetString(2);
+                    user.PhoneNumber = reader.GetString(3);
+                    user.Email = reader.GetString(4);
+                    user.Address = reader.GetString(5);
+                    user.UserName = reader.GetString(6);
+
+
+                    users.Add(user);
+                }
+                return users;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _DBConnection.CloseConnection();
+
+            }
+        }
+        public User GetUserById(int Id)
+        {
+            try
+            {
+                var command = _DBConnection.CreateCommand();
+                command.CommandText = "GetUserById";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@ID", Id);
+                _DBConnection.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                User user = new User();
+                while (reader.Read())
+                {
+                    user.ID = reader.GetInt32(0);
+                    user.FirstName = reader.GetString(1);
+                    user.LastName = reader.GetString(2);
+                    user.PhoneNumber = reader.GetString(3);
+                    user.Email = reader.GetString(4);
+                    user.Address = reader.GetString(5);
+                    user.UserName = reader.GetString(6);
+                }
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _DBConnection.CloseConnection();
+
+            }
+        }
 
     }
 }

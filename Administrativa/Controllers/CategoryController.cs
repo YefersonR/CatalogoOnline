@@ -28,6 +28,20 @@ namespace Administrativa.Controllers
                 return Json(ex.Message);
             }
         }
+        public JsonResult GetID(CategoryViewModel request)
+        {
+            try
+            {
+                var result = _categoryService.GetByIdCategory(request.ID);
+                var json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+
         public ActionResult Create()
         {
             return View();
@@ -39,39 +53,34 @@ namespace Administrativa.Controllers
             try
             {
                 _categoryService.AddCategory(request);
-                return View();
+                return Json(Url.Action("Index", "Category"));
             }
             catch (Exception ex)
             {
                 return Json(ex);
             }
         }
-        public ActionResult Update()
-        {
-            return View();
-        }
-        [HttpPut]
+        [HttpPost]
         public ActionResult Update(CategoryViewModel request)
         {
             try
             {
                 _categoryService.UpdateCategory(request);
-                return View();
+                return Json(Url.Action("Index", "Category"));
             }
             catch (Exception ex)
             {
                 return Json(ex);
             }
         }
-          
 
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public ActionResult Delete(CategoryViewModel category)
         {
             try
             {
-                _categoryService.DeleteCategory(id);
-                return View();
+                _categoryService.DeleteCategory(category.ID);
+                return Json(Url.Action("Index", "Category"));
             }
             catch (Exception ex)
             {

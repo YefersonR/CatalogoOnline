@@ -13,6 +13,8 @@ namespace Logic.BLL.Intefaces.Repository
         void UpdateUser(User user);
         User Login(string UserName, string Password);
         void DeleteUser(int Id);
+        List<User> GetUsers();
+        User GetUserById(int Id);
 
     }
 }

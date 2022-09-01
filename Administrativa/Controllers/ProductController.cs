@@ -29,6 +29,19 @@ namespace Administrativa.Controllers
                 return Json(ex.Message);
             }
         }
+        public JsonResult GetID(ProductsViewModel request)
+        {
+            try
+            {
+                var result = _productService.GetProductById(request.ID);
+                var json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
 
         public ActionResult Create()
         {
@@ -40,7 +53,7 @@ namespace Administrativa.Controllers
             try
             {
                 _productService.AddProduct(request);
-                return RedirectToRoute(new {controller="Product", action="Index" }) ;
+                return Json(Url.Action("Index", "Product"));
             }
             catch (Exception ex)
             {
@@ -48,17 +61,26 @@ namespace Administrativa.Controllers
             }
         }
 
-        public ActionResult Update()
-        {
-            return View();
-        }
         [HttpPost]
         public ActionResult Update(ProductsViewModel request)
         {
             try
             {
                 _productService.UpdateProduct(request);
-                return RedirectToRoute(new { controller = "Product", action = "Index" });
+                return Json(Url.Action("Index", "Product"));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+        [HttpPost]
+        public ActionResult Delete(ProductsViewModel product)
+        {
+            try
+            {
+                _productService.DeleteProduct(product.ID);
+                return Json(Url.Action("Index", "Product"));
             }
             catch (Exception ex)
             {

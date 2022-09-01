@@ -13,5 +13,6 @@ namespace Logic.BLL.Intefaces.Services
         void DeleteCategory(int Id);
         List<CategoryViewModel> GetAllCategory();
         void UpdateCategory(CategoryViewModel request);
+        CategoryViewModel GetByIdCategory(int id);
     }
 }

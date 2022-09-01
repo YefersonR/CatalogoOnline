@@ -13,6 +13,6 @@ namespace Logic.BLL.Intefaces.Repository
         void UpdateCategory(Category category);
         void DeleteCategory(int Id);
         List<Category> GetCategory();
-
+        Category GetById(int Id);
     }
 }

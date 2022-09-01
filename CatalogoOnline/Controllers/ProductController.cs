@@ -16,11 +16,13 @@ namespace CatalogoOnline.Controllers
         public ActionResult Create()
         {
             var user = Session["user"];
+
             if (user != null)
             {
-                return Json(Url.Action("Index", "Home"));
+                ViewBag.user = Session["user"];
+                return View();
             }
-            return Json(Url.Action("Index", "User"));
+            return RedirectToRoute(new { controller="Index", action="User" });
         }
         [HttpPost]
         public ActionResult Create(ProductsViewModel request)
@@ -47,19 +49,21 @@ namespace CatalogoOnline.Controllers
             var user = Session["user"];
             if (user != null)
             {
+                ViewBag.user = Session["user"];
+
                 return View();
             }
-            return Json(Url.Action("Index", "User"));
+            return RedirectToRoute(new { controller = "Index", action = "User" });
         }
 
         public ActionResult List()
-        {
+         {
             var user = Session["user"];
             if (user != null)
             {
                 try
                 {
-                    var result = _productService.GetAllProduct();
+                    var result = _productService.GetActiveProduct();
                     var json = JsonConvert.SerializeObject(result);
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
@@ -76,7 +80,7 @@ namespace CatalogoOnline.Controllers
         {
             try
             {
-                var result = _categoryService.GetAllCategory();
+                var result = _categoryService.GetActiveCategory();
                 var json = JsonConvert.SerializeObject(result);
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
@@ -97,7 +101,7 @@ namespace CatalogoOnline.Controllers
                     string json = "";
                     if (search == " " || search == null)
                     {
-                        result = _productService.GetAllProduct();
+                        result = _productService.GetActiveProduct();
                     }
                     else
                     {
@@ -126,7 +130,7 @@ namespace CatalogoOnline.Controllers
                     string json = ""; 
                     if (CategoryId == 0)
                     {
-                        result = _productService.GetAllProduct();
+                        result = _productService.GetActiveProduct();
                     }
                     else
                     {

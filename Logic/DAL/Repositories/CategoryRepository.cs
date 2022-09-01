@@ -17,11 +17,16 @@ namespace Logic.DAL.Repositories
         {
             try
             {
+                DateTime date = DateTime.Now;
+                TimeSpan time = new TimeSpan(36, 0, 0, 0);
+                DateTime combined = date.Add(time);
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "InsertCategory";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
+                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@FechaCreacion", combined);
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -39,13 +44,18 @@ namespace Logic.DAL.Repositories
         {
             try
             {
+                DateTime date = DateTime.Now;
+                TimeSpan time = new TimeSpan(36, 0, 0, 0);
+                DateTime combined = date.Add(time);
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SetCategorys";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@ID", category.ID);
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                command.Parameters.AddWithValue("@IsActive", true);
+                command.Parameters.AddWithValue("@IsActive", category.IsActive);
+                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@FechaActualizacion", combined);
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -99,6 +109,44 @@ namespace Logic.DAL.Repositories
                     category.CategoryName = reader.GetString(1);
                     category.CategoryDescription = reader.GetString(2);
                     category.IsActive = reader.GetBoolean(3);
+                    category.Autor = reader.GetString(4);
+
+
+                    categories.Add(category);
+                }
+                return categories;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _DBConnection.CloseConnection();
+
+            }
+        }
+        public List<Category> GetActiveCategory()
+        {
+            try
+            {
+                var command = _DBConnection.CreateCommand();
+                command.CommandText = "GetActiveCategory    ";
+                command.CommandType = CommandType.StoredProcedure;
+                _DBConnection.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                List<Category> categories = new List<Category>();
+                while (reader.Read())
+                {
+                    Category category = new Category();
+                    category.ID = reader.GetInt32(0);
+                    category.CategoryName = reader.GetString(1);
+                    category.CategoryDescription = reader.GetString(2);
+                    category.IsActive = reader.GetBoolean(3);
+                    category.Autor = reader.GetString(4);
+
 
                     categories.Add(category);
                 }
@@ -133,6 +181,7 @@ namespace Logic.DAL.Repositories
                     category.CategoryName = reader.GetString(1);
                     category.CategoryDescription = reader.GetString(2);
                     category.IsActive = reader.GetBoolean(3);
+                    category.Autor = reader.GetString(4);
 
                 }
                 return category;

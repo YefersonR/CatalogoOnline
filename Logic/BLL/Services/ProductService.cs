@@ -59,6 +59,22 @@ namespace Logic.BLL.Services
 
             return productsRequest;
         }
+        public List<ProductsViewModel> GetActiveProduct()
+        {
+            var products = _productRepository.GetActiveProduct();
+            List<ProductsViewModel> productsRequest = products.Select(request => new ProductsViewModel
+            {
+                ID = request.ID,
+                ProductName = request.ProductName,
+                UnitPrice = request.UnitPrice,
+                UnitInStock = request.UnitInStock,
+                Garantie = request.Garantie,
+                Discontinued = request.Discontinued
+            }).ToList();
+
+            return productsRequest;
+        }
+
 
         public List<ProductsViewModel> SearchProducts(string search)
         {

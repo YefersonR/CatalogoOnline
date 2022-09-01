@@ -19,6 +19,9 @@ namespace DataLayer.Repositories
         {
             try
             {
+                DateTime date = DateTime.Now;
+                TimeSpan time = new TimeSpan(36, 0, 0, 0);
+                DateTime combined = date.Add(time);
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "InsertProduct";
                 command.CommandType = CommandType.StoredProcedure;
@@ -26,9 +29,16 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@UnitPrice", product.UnitPrice);
                 command.Parameters.AddWithValue("@UnitInStock", product.UnitInStock);
                 command.Parameters.AddWithValue("@Garantie", product.Garantie);
-                command.Parameters.AddWithValue("@Discontinued", product.Discontinued);
                 command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
-
+                if(product.Autor == "" || product.Autor == null)
+                {
+                    command.Parameters.AddWithValue("@Autor", "Admin");
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@Autor", product.Autor);
+                }
+                command.Parameters.AddWithValue("@FechaCreacion", combined);
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -47,6 +57,9 @@ namespace DataLayer.Repositories
         {
             try
             {
+                DateTime date = DateTime.Now;
+                TimeSpan time = new TimeSpan(36, 0, 0, 0);
+                DateTime combined = date.Add(time);
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SetProducts";
                 command.CommandType = CommandType.StoredProcedure;
@@ -56,6 +69,9 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@UnitInStock", product.UnitInStock);
                 command.Parameters.AddWithValue("@Garantie", product.Garantie);
                 command.Parameters.AddWithValue("@Discontinued", product.Discontinued);
+                command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
+                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@FechaActualizacion", combined);
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -112,6 +128,8 @@ namespace DataLayer.Repositories
                     product.UnitInStock = reader.GetInt32(3);
                     product.Garantie = reader.GetString(4);
                     product.Discontinued = reader.GetBoolean(5);
+                    product.CategoryID= reader.GetInt32(6);
+                    product.Autor= reader.GetString(7);
 
 
                     products.Add(product);
@@ -130,6 +148,46 @@ namespace DataLayer.Repositories
             }
         }
 
+        public List<Product> GetActiveProduct()
+        {
+            try
+            {
+                var command = _DBConnection.CreateCommand();
+                command.CommandText = "GetAllActivesProducts";
+                command.CommandType = CommandType.StoredProcedure;
+
+                _DBConnection.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+                List<Product> products = new List<Product>();
+                while (reader.Read())
+                {
+                    Product product = new Product();
+                    product.ID = reader.GetInt32(0);
+                    product.ProductName = reader.GetString(1);
+                    product.UnitPrice = reader.GetSqlMoney(2).ToDouble();
+                    product.UnitInStock = reader.GetInt32(3);
+                    product.Garantie = reader.GetString(4);
+                    product.Discontinued = reader.GetBoolean(5);
+                    product.CategoryID = reader.GetInt32(6);
+                    product.Autor = reader.GetString(7);
+
+
+                    products.Add(product);
+                }
+                return products;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _DBConnection.CloseConnection();
+
+            }
+        }
 
         public List<Product> SearchProduct(string search)
         {
@@ -152,7 +210,8 @@ namespace DataLayer.Repositories
                     product.UnitInStock = reader.GetInt32(3);
                     product.Garantie = reader.GetString(4);
                     product.Discontinued = reader.GetBoolean(5);
-
+                    product.CategoryID = reader.GetInt32(6);
+                    product.Autor = reader.GetString(7);
 
                     products.Add(product);
                 }
@@ -191,6 +250,8 @@ namespace DataLayer.Repositories
                     product.UnitInStock = reader.GetInt32(3);
                     product.Garantie = reader.GetString(4);
                     product.Discontinued = reader.GetBoolean(5);
+                    product.CategoryID = reader.GetInt32(6);
+                    product.Autor = reader.GetString(7);
 
                     products.Add(product);
                 }
@@ -228,6 +289,9 @@ namespace DataLayer.Repositories
                     product.UnitInStock = reader.GetInt32(3);
                     product.Garantie = reader.GetString(4);
                     product.Discontinued = reader.GetBoolean(5);
+                    product.CategoryID = reader.GetInt32(6);
+                    product.Autor = reader.GetString(7);
+
                 }
                 return product;
 

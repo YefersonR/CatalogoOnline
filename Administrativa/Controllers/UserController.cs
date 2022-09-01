@@ -36,7 +36,7 @@ namespace Administrativa.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         public ActionResult Update(UserViewModel request)
         {
             try

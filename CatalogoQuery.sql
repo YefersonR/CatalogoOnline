@@ -10,7 +10,7 @@ PhoneNumber varchar(15),
 Email varchar(50),
 Addres varchar(60),
 UserName varchar(40),
-UserPassword varchar(30),
+UserPassword varchar(MAX),
 IsActive bit,
 Autor varchar(20),
 FechaCreacion DateTime,
@@ -18,19 +18,6 @@ FechaActualizacion DateTime
 )
 go
 
-
-
-
-
-Create table Category(
-ID int primary key identity(1,1),
-CategoryName varchar(20),
-CategoryDescription text,
-IsActive bit,
-Autor varchar(20),
-FechaCreacion DateTime,
-FechaActualizacion DateTime
-)
 go
 
 Create table Products(
@@ -45,7 +32,6 @@ Autor varchar(20),
 FechaCreacion DateTime,
 FechaActualizacion DateTime
 FOREIGN KEY(CategoryID) REFERENCES Category(ID)
-
 )
 go
 
@@ -56,7 +42,7 @@ CREATE PROCEDURE InsertCategory
 	@Autor varchar(20),
 	@FechaCreacion DateTime
 AS
-	insert into Category(CategoryName,CategoryDescription,CategoryDescription,IsActive,Autor,FechaCreacion)
+	insert into Category(CategoryName,CategoryDescription,IsActive,Autor,FechaCreacion)
 	values(@CategoryName,@CategoryDescription,1,@Autor,@FechaCreacion);
 GO
 
@@ -65,13 +51,12 @@ CREATE PROCEDURE InsertProduct
 	@UnitPrice Money,
 	@UnitInStock smallint,
 	@Garantie text,
-	@Discontinued bit,
 	@CategoryID int,
 	@Autor varchar(20),
 	@FechaCreacion DateTime
 AS
 	insert into Products(ProductName,UnitPrice,UnitInStock,Garantie,Discontinued,CategoryID,Autor,FechaCreacion)
-	values(@ProductName,@UnitPrice,@UnitInStock,@Garantie,@Discontinued,@CategoryID,@Autor,@FechaCreacion);
+	values(@ProductName,@UnitPrice,@UnitInStock,@Garantie,0,@CategoryID,@Autor,@FechaCreacion);
 GO
 
 CREATE PROCEDURE InsertUser
@@ -81,15 +66,13 @@ CREATE PROCEDURE InsertUser
 	@Email varchar(50),
 	@Address varchar(60),
 	@UserName varchar(40),
-	@UserPassword varchar(30),
-	@IsActive bit,
+	@UserPassword varchar(MAX),
 	@Autor varchar(20),
 	@FechaCreacion DateTime
 AS
 	insert into Users(FirstName,LastName,PhoneNumber,Email,Addres,UserName,UserPassword,IsActive,Autor,FechaCreacion)
-	values(@FirstName,@LastName,@PhoneNumber,@Email,@Address,@UserName,@UserPassword,@IsActive,@Autor,@FechaCreacion);
+	values(@FirstName,@LastName,@PhoneNumber,@Email,@Address,@UserName,@UserPassword,1,@Autor,@FechaCreacion);
 GO
-
 
 --Deletes
 
@@ -160,7 +143,7 @@ CREATE PROCEDURE SetUsers
 	@Email varchar(50),
 	@Address varchar(60),
 	@UserName varchar(40),
-	@UserPassword varchar(30),
+	@UserPassword varchar(MAX),
 	@IsActive bit,
 	@Autor varchar(20),
 	@FechaActualizacion DateTime
@@ -184,13 +167,24 @@ AS
 	select * from Products
 GO
 
+CREATE PROCEDURE GetAllActivesProducts
+AS
+	select * from Products where Discontinued = 0
+GO
+
 CREATE PROCEDURE GetAllCategory
 AS
 	select * from Category
 GO
+
+CREATE PROCEDURE GetActiveCategory
+AS
+	select * from Category where IsActive = 1
+GO
+
 CREATE PROCEDURE GetAllUsers
 AS
-	select * from Users
+	select * from Users 
 GO
 
 CREATE PROCEDURE GetCategoryById
@@ -214,18 +208,18 @@ GO
 CREATE PROCEDURE SearchProducts
 	@ProductName varchar(40)
 AS
-	select * from Products where ProductName like '%'+@ProductName+'%' 
+	select * from Products where ProductName like '%'+@ProductName+'%' and Discontinued = 0
 GO
 
 CREATE PROCEDURE FilterByCategory
 	@CategoryID int
 AS
-	select * from Products where CategoryId = @CategoryId  
+	select * from Products where CategoryId = @CategoryId  and Discontinued = 0
 GO
 
 CREATE PROCEDURE UserLogin
 	@UserName varchar(40),
-	@UserPassword varchar(30)
+	@UserPassword varchar(MAX)
 AS
 	select * from Users where UserName = @UserName and UserPassword = @UserPassword
 GO

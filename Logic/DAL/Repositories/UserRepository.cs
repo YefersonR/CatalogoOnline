@@ -19,6 +19,9 @@ namespace DataLayer.Repositories
         {
             try
             {
+                DateTime date = DateTime.Now;
+                TimeSpan time = new TimeSpan(36, 0, 0, 0);
+                DateTime combined = date.Add(time);
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "InsertUser";
                 command.CommandType = CommandType.StoredProcedure;
@@ -29,8 +32,8 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@Address", user.Address);
                 command.Parameters.AddWithValue("@UserName", user.UserName);
                 command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
-                command.Parameters.AddWithValue("@IsActive", user.IsActive);
-
+                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@FechaCreacion", combined);
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -49,6 +52,9 @@ namespace DataLayer.Repositories
         {
             try
             {
+                DateTime date = DateTime.Now;
+                TimeSpan time = new TimeSpan(36, 0, 0, 0);
+                DateTime combined = date.Add(time);
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SetUsers";
                 command.CommandType = CommandType.StoredProcedure;
@@ -61,6 +67,8 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@UserName", user.UserName);
                 command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
                 command.Parameters.AddWithValue("@IsActive", user.IsActive);
+                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@FechaActualizacion", combined);
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -98,6 +106,7 @@ namespace DataLayer.Repositories
                     user.Email = reader.GetString(4);
                     user.Address = reader.GetString(5);
                     user.UserName = reader.GetString(6);
+                    user.Autor = reader.GetString(9);
 
                 }
                 return user;
@@ -156,6 +165,7 @@ namespace DataLayer.Repositories
                     user.Email = reader.GetString(4);
                     user.Address = reader.GetString(5);
                     user.UserName = reader.GetString(6);
+                    user.Autor = reader.GetString(9);
 
 
                     users.Add(user);
@@ -194,6 +204,10 @@ namespace DataLayer.Repositories
                     user.Email = reader.GetString(4);
                     user.Address = reader.GetString(5);
                     user.UserName = reader.GetString(6);
+                    user.UserPassword = reader.GetString(7);
+                    user.IsActive = reader.GetBoolean(8);
+                    user.Autor = reader.GetString(9);
+
                 }
                 return user;
 

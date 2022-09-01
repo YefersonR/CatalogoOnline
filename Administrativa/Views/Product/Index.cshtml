@@ -43,6 +43,12 @@
                             <option value="0"> Categoria</option>
                         </select>
                     </div>
+                    <div class="field">
+                        <select id="Discontinued" class="form-select">
+                            <option value=true>Discontinued</option>
+                            <option value=false>Active</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -73,11 +79,32 @@
                         "<div class='d-flex justify-content-between'>" +
                         "<small class='fw-bold'> In Stock:" + product.UnitInStock + "</small> <br>" +
                         "<small class='fw-bold'> Garantie:" + product.Garantie + "</small>" +
+                        "<small class='fw-bold'> Garantie:" + product.Discontinued + "</small>" +
                         "</div>" +
                         "<div class='btn-group'>" +
                         "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='getbyID(" + product.ID + ")'>Edit</button>" +
                         "<a class='btn btn-danger' onclick='Delete(" + product.ID + ")'>Borrar</a>" +
                         "</div>"
+                    )
+                })
+
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        })
+        var urlCategory = "/Category/List"
+        $.ajax({
+            url: urlCategory,
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log(data);
+                $.map(data, (category) => {
+                    $("#Categories").append(
+                        "<option value=" + category.ID + ">" + category.CategoryName + "</option > "
                     )
                 })
 
@@ -118,6 +145,7 @@
                 $('#Garantie').val(data.Garantie);
                 $('#UnitInStock').val(data.UnitInStock);
                 $('#CategoryID').val(data.CategoryID);
+                $('#Discontinued').val(data.Discontinued);
 
             },
             error: function (err) {
@@ -128,14 +156,17 @@
 
     function Update() {
         var productModel = {
+            "ID": $('#ID').val(),
             "ProductName": $('#ProductName').val(),
             "UnitPrice": $('#UnitPrice').val(),
             "UnitInStock": $('#UnitInStock').val(),
             "Garantie": $('#Garantie').val(),
-            "CategoryID": $('#Categories').val()
+            "CategoryID": $('#Categories').val(),
+            "Discontinued": $('#Discontinued').val()
+
         }
         console.log(productModel)
-        $.post('./Update', productModel)
+        $.post('/Product/Update', productModel)
             .done(function (data) {
                 if (data != null) {
                     window.location.href = data

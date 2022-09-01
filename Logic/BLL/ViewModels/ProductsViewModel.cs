@@ -15,6 +15,8 @@ namespace Logic.BLL.DTOS
         public string Garantie { get; set; }
         public bool Discontinued { get; set; }
         public int CategoryID { get; set; }
+        public string Autor { get; set; }
+
 
     }
 }

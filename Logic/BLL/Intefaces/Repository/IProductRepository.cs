@@ -16,5 +16,6 @@ namespace Logic.BLL.Intefaces.Repository
         List<Product> SearchProduct(string search);
         List<Product> FilterByCategory(int CategoryId);
         Product GetProductById(int Id);
+        List<Product> GetActiveProduct();
     }
 }

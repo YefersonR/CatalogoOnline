@@ -92,10 +92,18 @@ namespace Logic.BLL.Services
                 Email = request.Email,
                 Address = request.Address,
                 UserName = request.UserName,
-                UserPassword = request.UserPassword,
                 IsActive = request.IsActive
 
             };
+            if (request.UserPassword == "" || request.UserPassword == null)
+            {
+                var userById = _userRepository.GetUserById(request.ID);
+                user.UserPassword = userById.UserPassword;
+            }
+            else
+            {
+                user.UserPassword = PasswordEncryption.Encryption(request.UserPassword);
+            }
             _userRepository.UpdateUser(user);
         }
         public void DeleteUser(int Id)

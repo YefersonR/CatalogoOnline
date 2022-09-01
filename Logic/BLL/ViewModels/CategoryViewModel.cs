@@ -12,5 +12,7 @@ namespace Logic.BLL.DTOS
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
         public bool IsActive { get; set; }
+        public string Autor { get; set; }
+
     }
 }

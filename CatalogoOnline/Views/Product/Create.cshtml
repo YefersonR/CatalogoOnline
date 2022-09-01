@@ -23,12 +23,12 @@
                     <option value="0"> Categoria</option>
                 </select>
             </div>
-             <button type="submit" style="margin-top:20px;">Crear Producto</button>
+             <button type="submit" style="margin-top:20px;">Create Product</button>
         </form>
     </div>
 </div>
 
-<script >
+<script>
     $("#formValidate").validate({
         rules: {
             ProductName: {
@@ -74,7 +74,8 @@
             "UnitPrice": $('#UnitPrice').val(),
             "UnitInStock": $('#UnitInStock').val(),
             "Garantie": $('#Garantie').val(),
-            "CategoryID": $('#Categories').val()
+            "CategoryID": $('#Categories').val(),
+            "Autor":"@ViewBag.user.UserName"
         }
         $.post('./Create', productModel)
             .done(function (data) {
@@ -105,7 +106,7 @@
             }
         })
      }
-    
-   
+
+
 
 </script>

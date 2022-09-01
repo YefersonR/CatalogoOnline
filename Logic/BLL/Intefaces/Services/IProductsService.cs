@@ -16,5 +16,6 @@ namespace Logic.BLL.Intefaces.Services
         void DeleteProduct(int Id);
         void UpdateProduct(ProductsViewModel request);
         void AddProduct(ProductsViewModel request);
+        List<ProductsViewModel> GetActiveProduct();
     }
 }

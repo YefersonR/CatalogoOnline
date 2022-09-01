@@ -14,5 +14,6 @@ namespace Logic.BLL.Intefaces.Services
         List<CategoryViewModel> GetAllCategory();
         void UpdateCategory(CategoryViewModel request);
         CategoryViewModel GetByIdCategory(int id);
+        List<CategoryViewModel> GetActiveCategory();
     }
 }

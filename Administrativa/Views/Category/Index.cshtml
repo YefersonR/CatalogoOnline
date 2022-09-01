@@ -1,7 +1,7 @@
 ﻿<div>
     <div class="row">
         <div class="add">
-            <a href="/User/Register" class="btn btn-success ">Agregar </a>
+            <a href="/Category/Create" class="btn btn-success ">Agregar </a>
         </div>
         <div class="col-4 mb-3">
             <div class="card shadow-sm">
@@ -29,6 +29,12 @@
                     </div>
                     <div class="field">
                         <input id="CategoryDescription" name="CategoryDescription" placeholder="Enter category description" />
+                    </div>
+                    <div class="field">
+                        <select id="IsActive" class="form-select">
+                            <option value=false>Disactive</option>
+                            <option value=true>Active</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -100,9 +106,12 @@
             },
             success: function (data) {
                 data = JSON.parse(data);
+                console.log(data);
                 $('#CategoryID').val(data.ID);
                 $('#CategoryName').val(data.CategoryName);
                 $('#CategoryDescription').val(data.CategoryDescription);
+                $('#IsActive').val(data.IsActive);
+
 
             },
             error: function (err) {
@@ -116,9 +125,11 @@
             "ID": $('#CategoryID').val(),
             "CategoryName": $('#CategoryName').val(),
             "CategoryDescription": $('#CategoryDescription').val(),
+            "IsActive": $('#IsActive').val()
+
         }
         console.log(productModel)
-        $.post('./Update', productModel)
+        $.post('/Category/Update', productModel)
             .done(function (data) {
                 if (data != null) {
                     window.location.href = data

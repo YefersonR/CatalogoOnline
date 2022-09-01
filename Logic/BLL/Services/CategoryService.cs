@@ -49,6 +49,19 @@ namespace Logic.BLL.Services
 
             return categoryResquest;
         }
+        public List<CategoryViewModel> GetActiveCategory()
+        {
+            var category = _categoryRepository.GetActiveCategory();
+            List<CategoryViewModel> categoryResquest = category.Select(request => new CategoryViewModel
+            {
+                ID = request.ID,
+                CategoryName = request.CategoryName,
+                CategoryDescription = request.CategoryDescription,
+                IsActive = request.IsActive
+            }).ToList();
+
+            return categoryResquest;
+        }
         public CategoryViewModel GetByIdCategory(int id)
         {
             var category = _categoryRepository.GetById(id);

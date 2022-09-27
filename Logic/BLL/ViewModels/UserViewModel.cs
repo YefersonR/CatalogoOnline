@@ -18,6 +18,6 @@ namespace Logic.BLL.DTOS
         public string UserPassword { get; set; }
         public bool IsActive { get; set; }
         public string Autor { get; set; }
-
+        public int TypeUser { get; set; }
     }
 }

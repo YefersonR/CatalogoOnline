@@ -15,7 +15,35 @@ namespace Administrativa.Controllers
         {
             return View();
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login(LoginViewModel request)
+        {
+            try
+            {
+                var user = _userService.LoginAdmin(request);
 
+                if (user.ID != 0)
+                {
+                    Session["user"] = user;
+                    return Json(Url.Action("Index", "Home"));
+                }
+                return Json(Url.Action("Login", "User"));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex);
+
+            }
+        }
+        public ActionResult LogOut()
+        {
+            Session["user"] = null;
+            return RedirectToRoute(new { controler = "User", action = "Login" });
+        }
         public ActionResult Register()
         {
             return View();
@@ -27,7 +55,7 @@ namespace Administrativa.Controllers
             try
             {
                 _userService.AddUser(request);
-                return Json(Url.Action("Index", "User"));
+                return Json(Url.Action("Login", "User"));
             }
             catch (Exception ex)
             {

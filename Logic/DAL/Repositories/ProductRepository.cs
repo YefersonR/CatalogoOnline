@@ -32,7 +32,7 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
                 if(product.Autor == "" || product.Autor == null)
                 {
-                    command.Parameters.AddWithValue("@Autor", "Admin");
+                    command.Parameters.AddWithValue("@Autor", "Administrador");
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@Garantie", product.Garantie);
                 command.Parameters.AddWithValue("@Discontinued", product.Discontinued);
                 command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
-                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@Autor", "Administrador");
                 command.Parameters.AddWithValue("@FechaActualizacion", combined);
 
                 _DBConnection.OpenConnection();

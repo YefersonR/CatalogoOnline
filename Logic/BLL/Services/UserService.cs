@@ -23,14 +23,16 @@ namespace Logic.BLL.Services
                 Email = request.Email,
                 Address = request.Address,
                 UserName = request.UserName,
-                UserPassword = PasswordEncryption.Encryption(request.UserPassword),
-                IsActive = request.IsActive
-
+                UserPassword = request.UserPassword, //PasswordEncryption.Encryption(request.UserPassword),
+                IsActive = request.IsActive,
+                TypeUser = request.TypeUser
             };
-            
-            _userRepository.CreateUser(user);
+            var ExistUser = _userRepository.GetUsers().FirstOrDefault(userr=> userr.UserName == user.UserName);
+            if(ExistUser == null)
+            {
+                _userRepository.CreateUser(user);
+            }
         }
-
         public UserViewModel Login(LoginViewModel request)
         {
             request.UserPassword = PasswordEncryption.Encryption(request.UserPassword);
@@ -48,7 +50,23 @@ namespace Logic.BLL.Services
 
             return UserR;
         }
+        public UserViewModel LoginAdmin(LoginViewModel request)
+        {
+            request.UserPassword = PasswordEncryption.Encryption(request.UserPassword);
+            var user = _userRepository.LoginAdmin(request.UserName, request.UserPassword);
+            UserViewModel UserR = new UserViewModel
+            {
+                ID = user.ID,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Address = user.Address,
+                UserName = user.UserName
+            };
 
+            return UserR;
+        }
         public List<UserViewModel> GetAllProduct()
         {
             var users = _userRepository.GetUsers();
@@ -80,8 +98,7 @@ namespace Logic.BLL.Services
             };
             return UserR;
         }
-
-    public void UpdateUser(UserViewModel request)
+        public void UpdateUser(UserViewModel request)
         {
             User user = new User
             {

@@ -15,65 +15,40 @@ namespace CatalogoOnline.Controllers
 
         public ActionResult Create()
         {
-            var user = Session["user"];
-
-            if (user != null)
-            {
-                ViewBag.user = Session["user"];
-                return View();
-            }
-            return RedirectToRoute(new { controller="Index", action="User" });
+            return View();
         }
         [HttpPost]
         public ActionResult Create(ProductsViewModel request)
-        {
-            var user = Session["user"];
-            if (user != null)
+        {    
+            try
             {
-                try
-                    {
-                        _productService.AddProduct(request);
-                        return Json(Url.Action("Index", "Home"));
-                    }
-                    catch (Exception ex)
-                    {
-                        return Json(ex.Message);
-                    }
+                _productService.AddProduct(request);
+                return Json(Url.Action("Index", "Home"));
             }
-            return Json(Url.Action("Index", "User"));
-
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+            
         }
 
         public ActionResult Index()
         {
-            var user = Session["user"];
-            if (user != null)
-            {
-                ViewBag.user = Session["user"];
-
-                return View();
-            }
-            return RedirectToRoute(new { controller = "Index", action = "User" });
+            return View();
         }
 
         public ActionResult List()
          {
-            var user = Session["user"];
-            if (user != null)
+            try
             {
-                try
-                {
-                    var result = _productService.GetActiveProduct();
-                    var json = JsonConvert.SerializeObject(result);
-                    return Json(json, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception ex)
-                {
-                    return Json(ex.Message);
-                }
+                var result = _productService.GetActiveProduct();
+                var json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
             }
-            return Json(Url.Action("Index", "User"));
-
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
 
         public JsonResult ListCategory()
@@ -92,61 +67,48 @@ namespace CatalogoOnline.Controllers
 
         public ActionResult Search(string search)
         {
-            var user = Session["user"];
-            if (user != null)
+            
+            try
             {
-                try
+                List<ProductsViewModel> result = new List<ProductsViewModel>();
+                string json = "";
+                if (search == " " || search == null)
                 {
-                    List<ProductsViewModel> result = new List<ProductsViewModel>();
-                    string json = "";
-                    if (search == " " || search == null)
-                    {
-                        result = _productService.GetActiveProduct();
-                    }
-                    else
-                    {
-                        result = _productService.SearchProducts(search);
-                    }
-                    json = JsonConvert.SerializeObject(result);
-                    return Json(json, JsonRequestBehavior.AllowGet);
+                    result = _productService.GetActiveProduct();
                 }
-                catch (Exception ex)
+                else
                 {
-                    return Json(ex.Message);
+                    result = _productService.SearchProducts(search);
                 }
+                json = JsonConvert.SerializeObject(result);
+                return Json(json, JsonRequestBehavior.AllowGet);
             }
-            return Json(Url.Action("Index", "User"));
-
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
-
         public ActionResult FilterByCategory(int CategoryId)
         {
-            var user = Session["user"];
-            if (user != null)
+            try
             {
-                try
+                List<ProductsViewModel> result = new List<ProductsViewModel>();
+                string json = ""; 
+                if (CategoryId == 0)
                 {
-                    List<ProductsViewModel> result = new List<ProductsViewModel>();
-                    string json = ""; 
-                    if (CategoryId == 0)
-                    {
-                        result = _productService.GetActiveProduct();
-                    }
-                    else
-                    {
-                        result = _productService.FilterByCategory(CategoryId);
-                    }
-                        json = JsonConvert.SerializeObject(result);
-                        return Json(json, JsonRequestBehavior.AllowGet);
+                    result = _productService.GetActiveProduct();
                 }
-                catch (Exception ex)
+                else
                 {
-                    return Json(ex.Message);
+                    result = _productService.FilterByCategory(CategoryId);
                 }
+                    json = JsonConvert.SerializeObject(result);
+                    return Json(json, JsonRequestBehavior.AllowGet);
             }
-            return Json(Url.Action("Index", "User"));
-
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
-
     }
 }

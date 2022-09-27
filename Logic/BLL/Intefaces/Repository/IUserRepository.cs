@@ -15,6 +15,7 @@ namespace Logic.BLL.Intefaces.Repository
         void DeleteUser(int Id);
         List<User> GetUsers();
         User GetUserById(int Id);
+        User LoginAdmin(string UserName, string Password);
 
     }
 }

@@ -21,7 +21,7 @@ namespace CatalogoOnline.Controllers
             try
             {
                 var user = _userService.Login(request);
-                if (user.ID != 0)
+                if (user.ID != 0 || user == null)
                 {
                     Session["user"] = user;
                     return Json(Url.Action("Index", "Home"));

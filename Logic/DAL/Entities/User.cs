@@ -17,7 +17,9 @@ namespace Logic.DAL.Entities
         public string UserName { get; set; }
         public string UserPassword { get; set; }
         public bool IsActive { get; set; }
+        public int TypeUser { get; set; }
         public string Autor { get; set; }
+
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Register";
+    //ViewBag.Title = "Register";
     //Layout = "~/Views/Shared/LayoutUser.cshtml" ;
 }
 <div class="formContainer">
@@ -25,15 +25,22 @@
             </div>
             <div class="field">
                 <input id="Address" name="Address" placeholder="Enter your address" />
-            </div> 
+            </div>
             <div class="field">
                 <input id="UserName" name="UserName" placeholder="Enter your username" />
             </div>
             <div class="field">
                 <input type="password" id="UserPassword" name="UserPassword" placeholder="Enter your password" />
             </div>
+            <div class="field">
+                <select name="TypeUser" id="TypeUser">
+                    <option value=0 selected>Select the type of the user</option>
+                    <option value=1>Admin</option>
+                    <option value=2>Client</option>
+                </select>
+            </div>
             <div class="buttons">
-                <button>Register</button>
+                <button type="submit">Register</button>
             </div>
 
         </form>
@@ -110,7 +117,9 @@
             "Email": $('#Email').val(),
             "Address": $('#Address').val(),
             "UserName": $('#UserName').val(),
-            "UserPassword": $('#UserPassword').val()
+            "UserPassword": $('#UserPassword').val(),
+            "TypeUser": $('#TypeUser').val()
+
         }
         $.post('/User/Register', productModel)
             .done(function (data) {

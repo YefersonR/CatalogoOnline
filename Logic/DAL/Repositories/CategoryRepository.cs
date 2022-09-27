@@ -25,7 +25,7 @@ namespace Logic.DAL.Repositories
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@Autor", "Administrador");
                 command.Parameters.AddWithValue("@FechaCreacion", combined);
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -54,7 +54,7 @@ namespace Logic.DAL.Repositories
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
                 command.Parameters.AddWithValue("@IsActive", category.IsActive);
-                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@Autor", "Administrador");
                 command.Parameters.AddWithValue("@FechaActualizacion", combined);
 
                 _DBConnection.OpenConnection();

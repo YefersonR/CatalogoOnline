@@ -32,11 +32,21 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@Address", user.Address);
                 command.Parameters.AddWithValue("@UserName", user.UserName);
                 command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
-                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@Autor", "Administrador");
                 command.Parameters.AddWithValue("@FechaCreacion", combined);
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
+
+                var savedUser = GetUsers().FirstOrDefault(users => users.UserName == user.UserName);
+                var command2 = _DBConnection.CreateCommand();
+                command2.CommandText = "InsertRoleToUser";
+                command2.CommandType = CommandType.StoredProcedure;
+                command2.Parameters.AddWithValue("@UserId", savedUser.ID);
+                command2.Parameters.AddWithValue("@RoleId", user.TypeUser);
+
+                command2.ExecuteNonQuery();
+
             }
             catch (Exception ex)
             {
@@ -67,7 +77,7 @@ namespace DataLayer.Repositories
                 command.Parameters.AddWithValue("@UserName", user.UserName);
                 command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
                 command.Parameters.AddWithValue("@IsActive", user.IsActive);
-                command.Parameters.AddWithValue("@Autor", "Admin");
+                command.Parameters.AddWithValue("@Autor", "Administrador");
                 command.Parameters.AddWithValue("@FechaActualizacion", combined);
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -95,10 +105,9 @@ namespace DataLayer.Repositories
 
                 SqlDataReader reader = command.ExecuteReader();
              
-                    User user = new User();
+                User user = new User();
                 while (reader.Read())
                 {
-                 
                     user.ID = reader.GetInt32(0);
                     user.FirstName = reader.GetString(1);
                     user.LastName = reader.GetString(2);
@@ -106,8 +115,7 @@ namespace DataLayer.Repositories
                     user.Email = reader.GetString(4);
                     user.Address = reader.GetString(5);
                     user.UserName = reader.GetString(6);
-                    user.Autor = reader.GetString(9);
-
+                    user.Autor = reader.GetString(7);
                 }
                 return user;
 
@@ -123,6 +131,45 @@ namespace DataLayer.Repositories
             }
         }
 
+        public User LoginAdmin(string UserName, string Password)
+        {
+            try
+            {
+                var command = _DBConnection.CreateCommand();
+                command.CommandText = "AdminLogin";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserName", UserName);
+                command.Parameters.AddWithValue("@UserPassword", Password);
+
+                _DBConnection.OpenConnection();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                User user = new User();
+                while (reader.Read())
+                {
+                    user.ID = reader.GetInt32(0);
+                    user.FirstName = reader.GetString(1);
+                    user.LastName = reader.GetString(2);
+                    user.PhoneNumber = reader.GetString(3);
+                    user.Email = reader.GetString(4);
+                    user.Address = reader.GetString(5);
+                    user.UserName = reader.GetString(6);
+                    user.Autor = reader.GetString(7);
+                }
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _DBConnection.CloseConnection();
+
+            }
+        }
         public void DeleteUser (int Id)
         {
             try

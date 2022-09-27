@@ -17,7 +17,28 @@ FechaCreacion DateTime,
 FechaActualizacion DateTime
 )
 go
+Create table Roles
+(
+ID int primary key identity(1,1),
+RoleName varchar(20)
+)
+go
 
+Create table UsersRoles
+(
+UserId int,
+RoleId int,
+FOREIGN KEY(UserId) REFERENCES Users(ID),
+FOREIGN KEY(RoleId) REFERENCES Roles(ID),
+)
+go
+
+Create table Category(
+ID int primary key identity(1,1),
+CategoryName varchar(20),
+CategoryDescription text,
+IsActive bit
+)
 go
 
 Create table Products(
@@ -36,6 +57,18 @@ FOREIGN KEY(CategoryID) REFERENCES Category(ID)
 go
 
 --Inserts
+
+insert into Roles(RoleName)
+values('Administrador'),('Cliente');
+
+CREATE PROCEDURE InsertRoleToUser
+	@UserId int,
+	@RoleId int
+AS
+	insert into UsersRoles(UserId,RoleId)
+	values(@UserId,@RoleId);
+GO
+
 CREATE PROCEDURE InsertCategory
 	@CategoryName varchar(20),
 	@CategoryDescription text,
@@ -221,5 +254,15 @@ CREATE PROCEDURE UserLogin
 	@UserName varchar(40),
 	@UserPassword varchar(MAX)
 AS
-	select * from Users where UserName = @UserName and UserPassword = @UserPassword
+	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users where UserName = @UserName and UserPassword = @UserPassword
+GO
+
+CREATE PROCEDURE AdminLogin
+	@UserName varchar(40),
+	@UserPassword varchar(MAX)
+AS
+	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users
+	join UsersRoles
+	on Users.ID = UsersRoles.UserId
+	where Users.UserName = @UserName and Users.UserPassword = @UserPassword and UsersRoles.UserId = Users.ID and UsersRoles.RoleId = 1
 GO

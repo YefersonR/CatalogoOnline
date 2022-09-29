@@ -25,15 +25,15 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "InsertUser";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@FirstName", user.FirstName);
-                command.Parameters.AddWithValue("@LastName", user.LastName);
-                command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                command.Parameters.AddWithValue("@Email", user.Email);
-                command.Parameters.AddWithValue("@Address", user.Address);
-                command.Parameters.AddWithValue("@UserName", user.UserName);
-                command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
-                command.Parameters.AddWithValue("@Autor", "Administrador");
-                command.Parameters.AddWithValue("@FechaCreacion", combined);
+                command.Parameters.Add(new SqlParameter("@FirstName", SqlDbType.VarChar, 20) { Value = user.FirstName });
+                command.Parameters.Add(new SqlParameter("@LastName", SqlDbType.VarChar, 30) { Value = user.LastName });
+                command.Parameters.Add(new SqlParameter("@PhoneNumber", SqlDbType.VarChar, 15) { Value = user.PhoneNumber });
+                command.Parameters.Add(new SqlParameter("@Email",SqlDbType.VarChar, 50){Value=user.Email});
+                command.Parameters.Add(new SqlParameter("@Address", SqlDbType.VarChar, 60){ Value = user.Address});
+                command.Parameters.Add(new SqlParameter("@UserName",SqlDbType.VarChar,40){ Value = user.UserName });
+                command.Parameters.Add(new SqlParameter("@UserPassword", SqlDbType.VarChar, int.MaxValue) {Value= user.UserPassword });
+                command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) { Value = "Administrador" });
+                command.Parameters.Add(new SqlParameter("@FechaCreacion", SqlDbType.DateTime) { Value = combined });
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -42,8 +42,8 @@ namespace DataLayer.Repositories
                 var command2 = _DBConnection.CreateCommand();
                 command2.CommandText = "InsertRoleToUser";
                 command2.CommandType = CommandType.StoredProcedure;
-                command2.Parameters.AddWithValue("@UserId", savedUser.ID);
-                command2.Parameters.AddWithValue("@RoleId", user.TypeUser);
+                command2.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = savedUser.ID });
+                command2.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = user.TypeUser });
 
                 command2.ExecuteNonQuery();
 
@@ -68,17 +68,17 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SetUsers";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", user.ID);
-                command.Parameters.AddWithValue("@FirstName", user.FirstName);
-                command.Parameters.AddWithValue("@LastName", user.LastName);
-                command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                command.Parameters.AddWithValue("@Email", user.Email);
-                command.Parameters.AddWithValue("@Address", user.Address);
-                command.Parameters.AddWithValue("@UserName", user.UserName);
-                command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
-                command.Parameters.AddWithValue("@IsActive", user.IsActive);
-                command.Parameters.AddWithValue("@Autor", "Administrador");
-                command.Parameters.AddWithValue("@FechaActualizacion", combined);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = user.ID });
+                command.Parameters.Add(new SqlParameter("@FirstName", SqlDbType.VarChar, 20) { Value = user.FirstName });
+                command.Parameters.Add(new SqlParameter("@LastName", SqlDbType.VarChar, 30) { Value = user.LastName });
+                command.Parameters.Add(new SqlParameter("@PhoneNumber", SqlDbType.VarChar, 15) { Value = user.PhoneNumber });
+                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar, 50) { Value = user.Email });
+                command.Parameters.Add(new SqlParameter("@Address", SqlDbType.VarChar, 60) { Value = user.Address });
+                command.Parameters.Add(new SqlParameter("@UserName", SqlDbType.VarChar, 40) { Value = user.UserName });
+                command.Parameters.Add(new SqlParameter("@UserPassword", SqlDbType.VarChar, int.MaxValue) { Value = user.UserPassword });
+                command.Parameters.Add(new SqlParameter("@IsActive", SqlDbType.Bit) { Value = user.IsActive });
+                command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) { Value = "Administrador" });
+                command.Parameters.Add(new SqlParameter("@FechaActualizacion", SqlDbType.DateTime) { Value = combined });
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -98,8 +98,8 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "UserLogin";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserName", UserName);
-                command.Parameters.AddWithValue("@UserPassword", Password);
+                command.Parameters.Add(new SqlParameter("@UserName", SqlDbType.VarChar, 40) { Value = UserName });
+                command.Parameters.Add(new SqlParameter("@UserPassword", SqlDbType.VarChar, int.MaxValue) { Value = Password });
 
                 _DBConnection.OpenConnection();
 
@@ -138,8 +138,8 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "AdminLogin";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserName", UserName);
-                command.Parameters.AddWithValue("@UserPassword", Password);
+                command.Parameters.Add(new SqlParameter("@UserName", SqlDbType.VarChar, 40) { Value = UserName });
+                command.Parameters.Add(new SqlParameter("@UserPassword", SqlDbType.VarChar, int.MaxValue) { Value = Password });
 
                 _DBConnection.OpenConnection();
 
@@ -177,7 +177,7 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "DeleteUser";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", Id);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = Id });
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -237,7 +237,7 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "GetUserById";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", Id);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = Id });
                 _DBConnection.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();

@@ -9,7 +9,7 @@
             Register
         </header>
 
-        <form class="formContent" id="formValidate">
+        <form class="formContent" id="formValidateRegister">
 
             <div class="field">
                 <input id="FirstName" name="FirstName" placeholder="Enter your name" />
@@ -46,86 +46,5 @@
         </form>
     </div>
 </div>
-
-
-<script>
-    $("#formValidate").validate({
-        rules: {
-            Name: {
-                required:true,
-            },
-            LastName: {
-                required: true
-
-            },
-            PhoneNumber: {
-                required: true
-
-            },
-            Email: {
-                required: true
-            },
-            Address: {
-                required: true
-
-            },
-            UserName: {
-                required: true
-
-            },
-            Password: {
-                required: true
-
-            }
-        },
-        messages: {
-            Name: {
-                required: "Please enter your name",
-            },
-            LastName: {
-                required: "Please enter your lastname"
-
-            },
-            PhoneNumber: {
-                required: "Please enter your phonenumber"
-
-            },
-            Email: {
-                required: "Please enter your email"
-            },
-            Address: {
-                required: "Please enter your address"
-
-            },
-            UserName: {
-                required: "Please enter your username"
-
-            },
-            Password: {
-                required: "Please enter your password"
-
-            }
-
-        }
-    })
-    $(document).on("submit", "#formValidate", function (e) {
-        e.preventDefault();
-        var productModel = {
-            "FirstName": $('#FirstName').val(),
-            "LastName": $('#LastName').val(),
-            "PhoneNumber": $('#PhoneNumber').val(),
-            "Email": $('#Email').val(),
-            "Address": $('#Address').val(),
-            "UserName": $('#UserName').val(),
-            "UserPassword": $('#UserPassword').val(),
-            "TypeUser": $('#TypeUser').val()
-
-        }
-        $.post('/User/Register', productModel)
-            .done(function (data) {
-                if (data != null) {
-                    window.location.href = data;
-                }
-            })
-    })
-</script>
+<script src="~/Scripts/AjaxRequests.js"></script>
+<script src="~/Scripts/Main.js"></script>

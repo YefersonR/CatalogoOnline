@@ -23,7 +23,7 @@
                 <h4 class="modal-title" id="myModalLabel">Edit product</h4>
             </div>
             <div class="modal-body">
-                <form class="formContent" id="formValidate">
+                <form class="formContent" id="formValidateProducts">
                     <input id="ID" name="ID" type="hidden" />
 
                     <div class="field">
@@ -52,126 +52,15 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnAdd" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="UpdateProduct();">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+<script src="~/Scripts/Main.js"></script>
 <script>
     window.onload = () => {
-        var url = "/Product/List"
-        $.ajax({
-            url: url,
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (data) {
-                data = JSON.parse(data);
-                $.map(data, (product) => {
-                    $("#Card").append(
-                        "<div class='CardContainer'>" +
-                        "<h3>" + product.ProductName + "</h3>" +
-                        "<div class='d-flex justify-content-between'>" +
-                        "<p class='card-text'> Price:" + product.UnitPrice + "</p>" +
-                        "<small class='fw-bold'></small>" +
-                        "</div>" +
-                        "<div class='d-flex justify-content-between'>" +
-                        "<small class='fw-bold'> In Stock:" + product.UnitInStock + "</small> <br>" +
-                        "<small class='fw-bold'> Garantie:" + product.Garantie + "</small>" +
-                        "<small class='fw-bold'> Garantie:" + product.Discontinued + "</small>" +
-                        "</div>" +
-                        "<div class='btn-group'>" +
-                        "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='getbyID(" + product.ID + ")'>Edit</button>" +
-                        "<a class='btn btn-danger' onclick='Delete(" + product.ID + ")'>Borrar</a>" +
-                        "</div>"
-                    )
-                })
-
-            },
-            error: function (err) {
-                console.error(err);
-            }
-        })
-        var urlCategory = "/Category/List"
-        $.ajax({
-            url: urlCategory,
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (data) {
-                data = JSON.parse(data);
-                console.log(data);
-                $.map(data, (category) => {
-                    $("#Categories").append(
-                        "<option value=" + category.ID + ">" + category.CategoryName + "</option > "
-                    )
-                })
-
-            },
-            error: function (err) {
-                console.error(err);
-            }
-        })
+        ProductHome()
     }
-    function Delete(ID) {
-        var product = {
-            "ID": ID
-        }
-        $.post('/Product/Delete', product)
-            .done(function (data) {
-                if (data != null) {
-                    window.location.href = data
-                }
-            })
-            .fail(function (data) {
-                console.log(data)
-            })
-    }
-    function getbyID(ID) {
-        $.ajax({
-            url: "/Product/GetID",
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            data: {
-                "ID": ID
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                $('#ID').val(data.ID);
-                $('#ProductName').val(data.ProductName);
-                $('#UnitPrice').val(data.UnitPrice);
-                $('#Garantie').val(data.Garantie);
-                $('#UnitInStock').val(data.UnitInStock);
-                $('#CategoryID').val(data.CategoryID);
-                $('#Discontinued').val(data.Discontinued);
-
-            },
-            error: function (err) {
-                console.error(err);
-            }
-        })
-    }
-
-    function Update() {
-        var productModel = {
-            "ID": $('#ID').val(),
-            "ProductName": $('#ProductName').val(),
-            "UnitPrice": $('#UnitPrice').val(),
-            "UnitInStock": $('#UnitInStock').val(),
-            "Garantie": $('#Garantie').val(),
-            "CategoryID": $('#Categories').val(),
-            "Discontinued": $('#Discontinued').val()
-
-        }
-        console.log(productModel)
-        $.post('/Product/Update', productModel)
-            .done(function (data) {
-                if (data != null) {
-                    window.location.href = data
-                }
-            })
-    }
-
 </script>

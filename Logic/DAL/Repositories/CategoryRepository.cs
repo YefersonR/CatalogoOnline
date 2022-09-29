@@ -23,10 +23,11 @@ namespace Logic.DAL.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "InsertCategory";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                command.Parameters.AddWithValue("@Autor", "Administrador");
-                command.Parameters.AddWithValue("@FechaCreacion", combined);
+                command.Parameters.Add(new SqlParameter("@CategoryName", SqlDbType.VarChar, 20) { Value = category.CategoryName });
+                command.Parameters.Add(new SqlParameter("@CategoryDescription", SqlDbType.Text) { Value = category.CategoryDescription });
+                command.Parameters.Add(new SqlParameter("@IsActive", SqlDbType.Bit) { Value = category.IsActive });
+                command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) { Value = "Administrador" });
+                command.Parameters.Add(new SqlParameter("@FechaCreacion", SqlDbType.DateTime) { Value = combined });
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -50,12 +51,12 @@ namespace Logic.DAL.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SetCategorys";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", category.ID);
-                command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                command.Parameters.AddWithValue("@IsActive", category.IsActive);
-                command.Parameters.AddWithValue("@Autor", "Administrador");
-                command.Parameters.AddWithValue("@FechaActualizacion", combined);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = category.ID });
+                command.Parameters.Add(new SqlParameter("@CategoryName", SqlDbType.VarChar, 20) { Value = category.CategoryName });
+                command.Parameters.Add(new SqlParameter("@CategoryDescription", SqlDbType.Text){Value = category.CategoryDescription});
+                command.Parameters.Add(new SqlParameter("@IsActive", SqlDbType.Bit) { Value = category.IsActive });
+                command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) { Value = "Administrador" });
+                command.Parameters.Add(new SqlParameter("@FechaActualizacion", SqlDbType.DateTime) { Value = combined });
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -77,7 +78,7 @@ namespace Logic.DAL.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "DeleteCategory";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", Id);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = Id });
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -170,7 +171,7 @@ namespace Logic.DAL.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "GetCategoryById";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", Id);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = Id });
                 _DBConnection.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();

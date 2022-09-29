@@ -4,7 +4,7 @@
             Crear detalle producto
         </header>
 
-        <form class="formContent" id="formValidate">
+        <form class="formContent" id="formValidateProducts">
             <div class="field">
                 <input id="ProductName" name="ProductName" placeholder="Ingrese el nombre del producto" />
             </div>
@@ -30,85 +30,4 @@
         </form>
     </div>
 </div>
-
-<script>
-    $("#formValidate").validate({
-        rules: {
-            ProductName: {
-                required: true,
-                minlength: 5
-            },
-            UnitPrice: {
-                required: true
-
-            },
-            UnitInStock: {
-                required: true
-
-            },
-            Garantie: {
-                required: true
-            }
-        },
-        messages: {
-            ProductName: {
-                required: "Please enter the product name",
-                minlength: "Name at least 5 character"
-            },
-            UnitPrice: {
-                required: "Please enter the unit price"
-
-            },
-            UnitInStock: {
-                required: "Please enter the unit in stock"
-
-            },
-            Garantie: {
-                required: "Please enter the garantie for the product"
-
-            }
-
-        }
-    })
-    $(document).on("submit", "#formValidate", function (e) {
-        e.preventDefault();
-        var productModel = {
-            "ProductName": $('#ProductName').val(),
-            "UnitPrice": $('#UnitPrice').val(),
-            "UnitInStock": $('#UnitInStock').val(),
-            "Garantie": $('#Garantie').val(),
-            "CategoryID": $('#Categories').val()
-        }
-        $.post('./Create', productModel)
-            .done(function (data) {
-                if (data != null) {
-                    window.location.href = data
-                }
-            })
-    })
-    window.onload = () => {
-        var urlCategory = "/Category/List"
-        $.ajax({
-            url: urlCategory,
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (data) {
-                data = JSON.parse(data);
-                console.log(data);
-                $.map(data, (category) => {
-                    $("#Categories").append(
-                        "<option value=" + category.ID + ">" + category.CategoryName + "</option > "
-                    )
-                })
-
-            },
-            error: function (err) {
-                console.error(err);
-            }
-        })
-    }
-
-
-
-</script>
+<script src="~/Scripts/Main.js"></script>

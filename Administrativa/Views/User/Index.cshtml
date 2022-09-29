@@ -47,120 +47,32 @@
                         <input type="password" id="UserPassword" name="UserPassword" placeholder="Enter your password" />
                     </div>
                     <div class="field">
-                        <select id="IsActive" class="form-select">
+                        <select name="IsActive" id="IsActive" class="form-select">
+                            <option value=true selected>Active</option>
                             <option value=false>Disactive</option>
-                            <option value=true>Active</option>
                         </select>
                     </div>
-
+                    <div class="field">
+                        <select name="TypeUser" id="TypeUser" class="form-select">
+                            <option value=0 selected>Select the type of the user</option>
+                            <option value=1>Admin</option>
+                            <option value=2>Client</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnAdd" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="UpdateUser();">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+<script src="~/Scripts/AjaxRequests.js"></script>
+<script src="~/Scripts/Main.js"></script>
+
 <script>
-            window.onload = () => {
-                var url = "/User/List"
-                $.ajax({
-                    url: url,
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json",
-                    success: function (data) {
-                        data = JSON.parse(data);
-                        console.log(data)
-                        $.map(data, (user) => {
-                            $("#Card").append(
-                                "<div class='CardContainer'>" +
-                                "<h3>" + user.FirstName + "</h3>" +
-                                "<h4>" + user.UserName + "</h4>" +
-                                "<div class='d-flex justify-content-between'>" +
-                                "<p class='card-text'> " + user.Email + "</p>" +
-                                "<p class='card-text'> " + user.Address + "</p>" +
-                                "<p class='card-text'>" + user.PhoneNumber + "</p>" +
-                                "<p class='card-text'>" + user.IsActive + "</p>" +
-                                "<small class='fw-bold'></small>"+
-                                 "<div class='btn-group'>" +
-                                "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='getbyID(" + user.ID + ")'>Edit</button>" +
-                                "<a class='btn btn-danger' onclick='Delete(" + user.ID + ")'>Borrar</a>" +
-                                "</div>"
-                                )
-                        })
-
-                    },
-                    error: function (err) {
-                        console.error(err);
-                    }
-                })
-            }
-            function Delete(ID) {
-                var user = {
-                    "ID": ID
-                }
-                $.post('/User/Delete', user)
-                    .done(function (data) {
-                        if (data != null) {
-                            window.location.href = "/Home/Index"
-                        }
-                    })
-                    .fail(function (data) {
-                        console.log(data)
-                    })
-            }
-            function getbyID(ID) {
-                $.ajax({
-                    url: "/User/GetID",
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: {
-                        "ID": ID
-                    },
-                    success: function (data) {
-                        data = JSON.parse(data);
-                        $('#ID').val(data.ID);
-                        $('#FirstName').val(data.FirstName);
-                        $('#LastName').val(data.LastName);
-                        $('#PhoneNumber').val(data.PhoneNumber);
-                        $('#Email').val(data.Email);
-                        $('#Address').val(data.Address);
-                        $('#UserName').val(data.UserName);
-                        $('#UserPassword').val(data.UserPassword);
-                        $('#IsActive').val(data.IsActive);
-
-                    },
-                    error: function (err) {
-                        console.error(err);
-                    }
-                })
-            }
-
-            function Update() {
-                var productModel = {
-                    "ID": $('#ID').val(),
-                    "FirstName": $('#FirstName').val(),
-                    "LastName": $('#LastName').val(),
-                    "PhoneNumber": $('#PhoneNumber').val(),
-                    "Email": $('#Email').val(),
-                    "Address": $('#Address').val(),
-                    "UserName": $('#UserName').val(),
-                    "UserPassword": $('#UserPassword').val(),
-                    "IsActive": $('#IsActive').val()
-
-
-                }
-                console.log(productModel)
-                $.post('/User/Update', productModel)
-                    .done(function (data) {
-                        if (data != null) {
-                            window.location.href = data
-                        }
-                    })
-            }
-
-
+    window.onload = () => {
+        UserHome()
+    }
 </script>

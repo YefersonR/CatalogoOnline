@@ -23,7 +23,8 @@ namespace CatalogoOnline
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/customBundle").Include(
-                     "~/Scripts/main.js"));
+                     "~/Scripts/main.js", 
+                     "~/Scripts/AjaxRequests.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

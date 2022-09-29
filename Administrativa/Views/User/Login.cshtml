@@ -8,7 +8,7 @@
             Login
         </header>
 
-        <form class="formContent" id="formValidateUser">
+        <form class="formContent" id="formValidateLogin">
             <div class="field">
                 <input id="UserName" name="UserName" placeholder="Enter your username" />
             </div>
@@ -22,38 +22,5 @@
         </form>
     </div>
 </div>
-<script>
-    $("#formValidateUser").validate({
-        rules: {
-            UserName: {
-                required: true,
-                minlength: 5
-            },
-            Password: {
-                required: true
-            }
-        },
-        messages: {
-            UserName: {
-                required: "Please enter your username"
-            },
-            Password: {
-                required: "Please enter your password"
-            }
-        }
-    })
-    $(document).on("submit", "#formValidateUser", function (e) {
-        e.preventDefault();
-        console.log("entra");
-        var productModel = {
-            "UserName": $('#UserName').val(),
-            "UserPassword": $('#Password').val(),
-        }
-        $.post('/User/Login', productModel)
-            .done(function (data) {
-                if (data != null) {
-                    window.location.href = data;
-                }
-            })
-    })
-</script>
+<script src="~/Scripts/AjaxRequests.js"></script>
+<script src="~/Scripts/Main.js"></script>

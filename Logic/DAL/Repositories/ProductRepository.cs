@@ -25,20 +25,20 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "InsertProduct";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ProductName", product.ProductName);
-                command.Parameters.AddWithValue("@UnitPrice", product.UnitPrice);
-                command.Parameters.AddWithValue("@UnitInStock", product.UnitInStock);
-                command.Parameters.AddWithValue("@Garantie", product.Garantie);
-                command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
-                if(product.Autor == "" || product.Autor == null)
+                command.Parameters.Add(new SqlParameter("@ProductName", SqlDbType.VarChar, 40) { Value = product.ProductName });
+                command.Parameters.Add(new SqlParameter("@UnitPrice", SqlDbType.Money) { Value = product.UnitPrice });
+                command.Parameters.Add(new SqlParameter("@UnitInStock", SqlDbType.Int) { Value = product.UnitInStock });
+                command.Parameters.Add(new SqlParameter("@Garantie", SqlDbType.Text) { Value = product.Garantie });
+                command.Parameters.Add(new SqlParameter("@CategoryID",SqlDbType.Int ){Value=product.CategoryID});
+                if (product.Autor == "" || product.Autor == null)
                 {
-                    command.Parameters.AddWithValue("@Autor", "Administrador");
+                    command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) {Value= "Administrador" });
                 }
                 else
                 {
-                    command.Parameters.AddWithValue("@Autor", product.Autor);
+                    command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar,20) { Value = product.Autor});
                 }
-                command.Parameters.AddWithValue("@FechaCreacion", combined);
+                command.Parameters.Add(new SqlParameter("@FechaCreacion", SqlDbType.DateTime) { Value = combined });
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -63,15 +63,16 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SetProducts";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", product.ID);
-                command.Parameters.AddWithValue("@ProductName", product.ProductName);
-                command.Parameters.AddWithValue("@UnitPrice", product.UnitPrice);
-                command.Parameters.AddWithValue("@UnitInStock", product.UnitInStock);
-                command.Parameters.AddWithValue("@Garantie", product.Garantie);
-                command.Parameters.AddWithValue("@Discontinued", product.Discontinued);
-                command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
-                command.Parameters.AddWithValue("@Autor", "Administrador");
-                command.Parameters.AddWithValue("@FechaActualizacion", combined);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) {Value= product.ID});
+                command.Parameters.Add(new SqlParameter("@ProductName", SqlDbType.VarChar, 40) { Value = product.ProductName });
+                command.Parameters.Add(new SqlParameter("@UnitPrice", SqlDbType.Money) { Value = product.UnitPrice });
+                command.Parameters.Add(new SqlParameter("@UnitInStock", SqlDbType.Int) { Value = product.UnitInStock });
+                command.Parameters.Add(new SqlParameter("@Garantie", SqlDbType.Text) { Value = product.Garantie });
+                command.Parameters.Add(new SqlParameter("@CategoryID", SqlDbType.Int) { Value = product.CategoryID });
+
+                command.Parameters.Add(new SqlParameter("@Discontinued", SqlDbType.Bit){Value=product.Discontinued});
+                command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) { Value = "Administrador" });
+                command.Parameters.Add(new SqlParameter("@FechaActualizacion", SqlDbType.DateTime) { Value = combined });
 
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
@@ -93,7 +94,7 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "DeleteProducts";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", Id);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = Id });
                 _DBConnection.OpenConnection();
                 command.ExecuteNonQuery();
             }
@@ -196,7 +197,7 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "SearchProducts";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ProductName", search);
+                command.Parameters.Add(new SqlParameter("@ProductName", SqlDbType.VarChar, 40) { Value = search});
                 _DBConnection.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -236,7 +237,7 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "FilterByCategory";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@CategoryID", CategoryId);
+                command.Parameters.Add(new SqlParameter("@CategoryID", SqlDbType.Int) { Value = CategoryId });
                 _DBConnection.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -276,7 +277,7 @@ namespace DataLayer.Repositories
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "GetProductById";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ID", Id);
+                command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int) { Value = Id });
                 _DBConnection.OpenConnection();
 
                 SqlDataReader reader = command.ExecuteReader();

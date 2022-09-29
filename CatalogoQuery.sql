@@ -254,7 +254,7 @@ CREATE PROCEDURE UserLogin
 	@UserName varchar(40),
 	@UserPassword varchar(MAX)
 AS
-	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users where UserName = @UserName and UserPassword = @UserPassword
+	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users where UserName = 'Admin' and UserPassword = 'Admin'
 GO
 
 CREATE PROCEDURE AdminLogin

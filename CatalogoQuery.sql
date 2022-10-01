@@ -2,12 +2,22 @@ Create Database CatalogoOnline
 use CatalogoOnline
 
 -- Usuario Base
-insert into Roles(RoleName)
-values('Administrador'),('Cliente');
-insert into Users(FirstName,LastName,PhoneNumber,Email,Addres,UserName,UserPassword,IsActive,Autor,FechaCreacion)
-values('Administrador','Administrador','00000000000','Admin@gmail.com','Admin','Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',1,'Administrador',GETDATE());
 
+Create table Roles
+(
+ID int primary key identity(1,1),
+RoleName varchar(20)
+)
+go
 
+Create table UsersRoles
+(
+UserId int,
+RoleId int,
+FOREIGN KEY(UserId) REFERENCES Users(ID),
+FOREIGN KEY(RoleId) REFERENCES Roles(ID),
+)
+go
 
 Create table Users
 (
@@ -23,21 +33,6 @@ IsActive bit,
 Autor varchar(20),
 FechaCreacion DateTime,
 FechaActualizacion DateTime
-)
-go
-Create table Roles
-(
-ID int primary key identity(1,1),
-RoleName varchar(20)
-)
-go
-
-Create table UsersRoles
-(
-UserId int,
-RoleId int,
-FOREIGN KEY(UserId) REFERENCES Users(ID),
-FOREIGN KEY(RoleId) REFERENCES Roles(ID),
 )
 go
 
@@ -64,7 +59,12 @@ FOREIGN KEY(CategoryID) REFERENCES Category(ID)
 )
 go
 
+
 --Inserts
+insert into Roles(RoleName)
+values('Administrador'),('Cliente');
+insert into Users(FirstName,LastName,PhoneNumber,Email,Addres,UserName,UserPassword,IsActive,Autor,FechaCreacion)
+values('Administrador','Administrador','00000000000','Admin@gmail.com','Admin','Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',1,'Administrador',GETDATE());
 
 CREATE PROCEDURE InsertRoleToUser
 	@UserId int,

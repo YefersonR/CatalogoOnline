@@ -140,7 +140,9 @@ GO
 CREATE PROCEDURE DeleteUser
 	@ID int 
 AS
-	DELETE FROM Users WHERE ID = @ID;
+	alter table UsersRoles nocheck constraint all
+	DELETE FROM Users WHERE ID = 4;
+	alter table UsersRoles check constraint all
 GO
 --Updates
 CREATE PROCEDURE SetProducts

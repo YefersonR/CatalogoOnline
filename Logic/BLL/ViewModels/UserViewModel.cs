@@ -19,5 +19,8 @@ namespace Logic.BLL.DTOS
         public bool IsActive { get; set; }
         public string Autor { get; set; }
         public int TypeUser { get; set; }
+        public bool HasError { get; set; }
+        public string Error { get; set; }
+
     }
 }

@@ -27,7 +27,9 @@ namespace CatalogoOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
             
         }
@@ -47,7 +49,10 @@ namespace CatalogoOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                UserViewModel request = new UserViewModel();
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
 
@@ -61,13 +66,15 @@ namespace CatalogoOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                UserViewModel request = new UserViewModel();
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
 
         public ActionResult Search(string search)
-        {
-            
+        {   
             try
             {
                 List<ProductsViewModel> result = new List<ProductsViewModel>();
@@ -85,7 +92,10 @@ namespace CatalogoOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                UserViewModel request = new UserViewModel();
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
         public ActionResult FilterByCategory(int CategoryId)
@@ -107,7 +117,10 @@ namespace CatalogoOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                UserViewModel request = new UserViewModel();
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
     }

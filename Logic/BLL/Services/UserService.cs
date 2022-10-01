@@ -23,12 +23,14 @@ namespace Logic.BLL.Services
                 Email = request.Email,
                 Address = request.Address,
                 UserName = request.UserName,
-                UserPassword = request.UserPassword, //PasswordEncryption.Encryption(request.UserPassword),
+                UserPassword = PasswordEncryption.Encryption(request.UserPassword),
                 IsActive = request.IsActive,
-                TypeUser = request.TypeUser
+                TypeUser = request.TypeUser,
+                HasError = request.HasError,
+                Error = request.Error
             };
-            var ExistUser = _userRepository.GetUsers().FirstOrDefault(userr=> userr.UserName == user.UserName);
-            if(ExistUser == null)
+            var ExistUser = _userRepository.GetUsers().FirstOrDefault(userr => userr.UserName == user.UserName);
+            if (ExistUser == null)
             {
                 _userRepository.CreateUser(user);
             }
@@ -62,7 +64,9 @@ namespace Logic.BLL.Services
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 Address = user.Address,
-                UserName = user.UserName
+                UserName = user.UserName,
+                HasError = request.HasError,
+                Error = request.Error
             };
 
             return UserR;
@@ -78,7 +82,9 @@ namespace Logic.BLL.Services
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
                 Address = request.Address,
-                UserName = request.UserName
+                UserName = request.UserName,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return userRequest;
@@ -94,7 +100,9 @@ namespace Logic.BLL.Services
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 Address = user.Address,
-                UserName = user.UserName
+                UserName = user.UserName,
+                HasError = user.HasError,
+                Error = user.Error
             };
             return UserR;
         }
@@ -109,7 +117,11 @@ namespace Logic.BLL.Services
                 Email = request.Email,
                 Address = request.Address,
                 UserName = request.UserName,
-                IsActive = request.IsActive
+                IsActive = request.IsActive,
+                TypeUser = request.TypeUser,
+                HasError = request.HasError,
+                Error = request.Error
+                
 
             };
             if (request.UserPassword == "" || request.UserPassword == null)

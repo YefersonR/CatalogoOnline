@@ -21,7 +21,9 @@ namespace Logic.BLL.Services
                 UnitInStock = request.UnitInStock,
                 Garantie = request.Garantie,
                 Discontinued = request.Discontinued,
-                CategoryID = request.CategoryID
+                CategoryID = request.CategoryID,
+                HasError = request.HasError,
+                Error = request.Error
             };
             _productRepository.CreateProduct(product);
         }
@@ -35,7 +37,9 @@ namespace Logic.BLL.Services
                 UnitInStock = request.UnitInStock,
                 Garantie = request.Garantie,
                 Discontinued = request.Discontinued,
-                CategoryID = request.CategoryID
+                CategoryID = request.CategoryID,
+                HasError = request.HasError,
+                Error = request.Error
 
             };
             _productRepository.UpdateProduct(product);
@@ -54,7 +58,9 @@ namespace Logic.BLL.Services
                 UnitPrice = request.UnitPrice,
                 UnitInStock = request.UnitInStock,
                 Garantie = request.Garantie,
-                Discontinued = request.Discontinued
+                Discontinued = request.Discontinued,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return productsRequest;
@@ -69,7 +75,9 @@ namespace Logic.BLL.Services
                 UnitPrice = request.UnitPrice,
                 UnitInStock = request.UnitInStock,
                 Garantie = request.Garantie,
-                Discontinued = request.Discontinued
+                Discontinued = request.Discontinued,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return productsRequest;
@@ -86,7 +94,9 @@ namespace Logic.BLL.Services
                 UnitPrice = request.UnitPrice,
                 UnitInStock = request.UnitInStock,
                 Garantie = request.Garantie,
-                Discontinued = request.Discontinued
+                Discontinued = request.Discontinued,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return productsRequest;
@@ -101,7 +111,9 @@ namespace Logic.BLL.Services
                 UnitPrice = request.UnitPrice,
                 UnitInStock = request.UnitInStock,
                 Garantie = request.Garantie,
-                Discontinued = request.Discontinued
+                Discontinued = request.Discontinued,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return productsRequest;
@@ -117,7 +129,9 @@ namespace Logic.BLL.Services
                 UnitPrice = product.UnitPrice,
                 UnitInStock = product.UnitInStock,
                 Garantie = product.Garantie,
-                Discontinued = product.Discontinued
+                Discontinued = product.Discontinued,
+                HasError = product.HasError,
+                Error = product.Error
             };
             return productR;
         }

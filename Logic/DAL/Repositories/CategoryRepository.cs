@@ -25,7 +25,6 @@ namespace Logic.DAL.Repositories
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@CategoryName", SqlDbType.VarChar, 20) { Value = category.CategoryName });
                 command.Parameters.Add(new SqlParameter("@CategoryDescription", SqlDbType.Text) { Value = category.CategoryDescription });
-                command.Parameters.Add(new SqlParameter("@IsActive", SqlDbType.Bit) { Value = category.IsActive });
                 command.Parameters.Add(new SqlParameter("@Autor", SqlDbType.VarChar, 20) { Value = "Administrador" });
                 command.Parameters.Add(new SqlParameter("@FechaCreacion", SqlDbType.DateTime) { Value = combined });
                 _DBConnection.OpenConnection();

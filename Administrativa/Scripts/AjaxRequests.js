@@ -2,8 +2,11 @@
 function PostAjaxRequest(url, model) {
     $.post(url, model)
         .done(function (data) {
-            if (data != null) {
+            if (data != null && data.HasError != true) {
                 window.location.href = data
+            }
+            else {
+                console.error(data.Error)
             }
         })
 }

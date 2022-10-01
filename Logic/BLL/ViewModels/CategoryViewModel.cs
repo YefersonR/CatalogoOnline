@@ -13,6 +13,8 @@ namespace Logic.BLL.DTOS
         public string CategoryDescription { get; set; }
         public bool IsActive { get; set; }
         public string Autor { get; set; }
+        public bool HasError { get; set; }
+        public string Error { get; set; }
 
     }
 }

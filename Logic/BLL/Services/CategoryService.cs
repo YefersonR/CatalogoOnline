@@ -17,7 +17,9 @@ namespace Logic.BLL.Services
             {
                 CategoryName = request.CategoryName,
                 CategoryDescription = request.CategoryDescription,
-                IsActive = request.IsActive
+                IsActive = request.IsActive,
+                HasError = request.HasError,
+                Error = request.Error
             };
             _categoryRepository.CreateCategory(category);
         }
@@ -28,7 +30,9 @@ namespace Logic.BLL.Services
                 ID = request.ID,
                 CategoryName = request.CategoryName,
                 CategoryDescription = request.CategoryDescription,
-                IsActive = request.IsActive
+                IsActive = request.IsActive,
+                HasError = request.HasError,
+                Error = request.Error
             };
             _categoryRepository.UpdateCategory(category);
         }
@@ -44,7 +48,9 @@ namespace Logic.BLL.Services
                 ID = request.ID,
                 CategoryName = request.CategoryName,
                 CategoryDescription = request.CategoryDescription,
-                IsActive = request.IsActive
+                IsActive = request.IsActive,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return categoryResquest;
@@ -57,7 +63,9 @@ namespace Logic.BLL.Services
                 ID = request.ID,
                 CategoryName = request.CategoryName,
                 CategoryDescription = request.CategoryDescription,
-                IsActive = request.IsActive
+                IsActive = request.IsActive,
+                HasError = request.HasError,
+                Error = request.Error
             }).ToList();
 
             return categoryResquest;
@@ -70,7 +78,9 @@ namespace Logic.BLL.Services
                 ID = category.ID,
                 CategoryName = category.CategoryName,
                 CategoryDescription = category.CategoryDescription,
-                IsActive = category.IsActive
+                IsActive = category.IsActive,
+                HasError = category.HasError,
+                Error = category.Error
             };
 
             return categoryResquest;

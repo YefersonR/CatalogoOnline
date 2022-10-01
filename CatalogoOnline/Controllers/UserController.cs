@@ -30,8 +30,9 @@ namespace CatalogoOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex);
-
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
         public ActionResult LogOut()

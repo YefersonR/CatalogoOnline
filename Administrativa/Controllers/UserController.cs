@@ -35,8 +35,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex);
-
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
         public ActionResult LogOut()
@@ -55,11 +56,13 @@ namespace Administrativa.Controllers
             try
             {
                 _userService.AddUser(request);
-                return Json(Url.Action("Login", "User"));
+                return Json(Url.Action("Index", "User"));
             }
             catch (Exception ex)
             {
-                return Json(ex);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
 
             }
         }
@@ -71,11 +74,12 @@ namespace Administrativa.Controllers
             {
                 _userService.UpdateUser(request);
                 return Json(Url.Action("Index", "User"));
-
             }
             catch (Exception ex)
             {
-                return Json(ex);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
 
             }
         }
@@ -91,7 +95,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
 
             }
         }
@@ -105,7 +111,10 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                UserViewModel user = new UserViewModel();
+                user.HasError = true;
+                user.Error = ex.Message;
+                return Json(user);
             }
         }
         public JsonResult GetID(ProductsViewModel request)
@@ -118,7 +127,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
     }

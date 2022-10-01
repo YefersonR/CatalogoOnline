@@ -16,6 +16,8 @@ namespace Logic.DAL.Entities
         public bool Discontinued { get; set; }
         public int CategoryID { get; set; }
         public string Autor { get; set; }
+        public bool HasError { get; set; }
+        public string Error { get; set; }
 
 
     }

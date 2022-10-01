@@ -10,5 +10,7 @@ namespace Logic.BLL.ViewModels
     {
         public string UserName { get; set; }
         public string UserPassword { get; set; }
+        public bool HasError { get; set; }
+        public string Error { get; set; }
     }
 }

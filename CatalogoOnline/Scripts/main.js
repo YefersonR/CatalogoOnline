@@ -6,7 +6,7 @@ async function Home() {
         var getDataProducts = await GetAjaxResult(urlProducts)
         getDataProducts = JSON.parse(getDataProducts)
 
-        if (getDataProducts != null) {
+        if (getDataProducts.length != 0 && getDataProducts.HasError != true) {
             $("#Card").empty()
             $.map(getDataProducts, (result) => {
                 $("#Card").append(
@@ -24,6 +24,7 @@ async function Home() {
             })
         }
         else {
+            $("#Card").empty()
             $("#Card").append("<h1>No items found</h1>")
         }
 
@@ -37,7 +38,7 @@ async function Home() {
         var getDataCategories = await GetAjaxResult(urlCategory)
         getDataCategories = JSON.parse(getDataCategories)
 
-        if (getDataCategories != null) {
+        if (getDataCategories.length != 0 && getDataProducts.HasError != true) {
             $.map(getDataCategories, (result) => {
                 $("#Categories").append(
                     "<br>" +
@@ -47,6 +48,7 @@ async function Home() {
             })
         }
         else {
+            $("#Card").empty()
             $("#Categories").append("<h1>No categories found</h1>")
         }
 
@@ -62,7 +64,7 @@ async function ListCategory() {
         var getDataCategories = await GetAjaxResult(urlCategory)
         getDataCategories = JSON.parse(getDataCategories)
 
-        if (getDataCategories != null) {
+        if (getDataCategories != null && getDataCategories.HasError != true) {
             $.map(getDataCategories, (result) => {
                 $("#Categories").append(
                     "<option value=" + result.ID + ">" + result.CategoryName + "</option > "
@@ -177,7 +179,7 @@ $(document).on("submit", "#SearchForm", async function (e) {
         var getDataProducts = await GetAjaxResultWithParameter(url, model)
         getDataProducts = JSON.parse(getDataProducts)
 
-        if (getDataProducts != null) {
+        if (getDataProducts.length != 0 && getDataProducts.HasError != true) {
             $("#Card").empty()
             $.map(getDataProducts, (result) => {
                 $("#Card").append(
@@ -195,6 +197,7 @@ $(document).on("submit", "#SearchForm", async function (e) {
             })
         }
         else {
+            $("#Card").empty()
             $("#Card").append("<h1>No items found</h1>")
         }
     }
@@ -213,7 +216,7 @@ $(document).on("submit", "#FilterByCategoryForm", async function (e) {
         var getDataProducts = await GetAjaxResultWithParameter(url, model)
         getDataProducts = JSON.parse(getDataProducts)
 
-        if (getDataProducts != null) {
+        if (getDataProducts.length != 0 && getDataProducts.HasError != true) {
             $("#Card").empty()
             $.map(getDataProducts, (result) => {
                 $("#Card").append(
@@ -231,6 +234,7 @@ $(document).on("submit", "#FilterByCategoryForm", async function (e) {
             })
         }
         else {
+            $("#Card").empty()
             $("#Card").append("<h1>No items found</h1>")
         }
     }

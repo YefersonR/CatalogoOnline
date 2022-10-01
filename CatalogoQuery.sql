@@ -1,6 +1,14 @@
 Create Database CatalogoOnline
 use CatalogoOnline
 
+-- Usuario Base
+insert into Roles(RoleName)
+values('Administrador'),('Cliente');
+insert into Users(FirstName,LastName,PhoneNumber,Email,Addres,UserName,UserPassword,IsActive,Autor,FechaCreacion)
+values('Administrador','Administrador','00000000000','Admin@gmail.com','Admin','Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',1,'Administrador',GETDATE());
+
+
+
 Create table Users
 (
 ID int primary key identity(1,1),
@@ -58,15 +66,23 @@ go
 
 --Inserts
 
-insert into Roles(RoleName)
-values('Administrador'),('Cliente');
-
 CREATE PROCEDURE InsertRoleToUser
 	@UserId int,
 	@RoleId int
 AS
-	insert into UsersRoles(UserId,RoleId)
-	values(@UserId,@RoleId);
+	insert into UsersRoles(RoleId,UserId)
+	values(@RoleId,@UserId);
+GO
+
+CREATE PROCEDURE UpdateRoleToUser
+	@UserId int,
+	@RoleId int
+AS
+	UPDATE UsersRoles
+	SET RoleId = @RoleId,
+	UserId = @UserId
+	WHERE UserId = @UserId;
+
 GO
 
 CREATE PROCEDURE InsertCategory
@@ -254,7 +270,7 @@ CREATE PROCEDURE UserLogin
 	@UserName varchar(40),
 	@UserPassword varchar(MAX)
 AS
-	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users where UserName = 'Admin' and UserPassword = 'Admin'
+	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users where UserName = @UserName and UserPassword = @UserPassword and IsActive = 1
 GO
 
 CREATE PROCEDURE AdminLogin
@@ -263,6 +279,6 @@ CREATE PROCEDURE AdminLogin
 AS
 	select ID,FirstName,LastName,PhoneNumber,Email,Addres,UserName,Autor from Users
 	join UsersRoles
-	on Users.ID = UsersRoles.UserId
+	on Users.ID = UsersRoles.UserId	
 	where Users.UserName = @UserName and Users.UserPassword = @UserPassword and UsersRoles.UserId = Users.ID and UsersRoles.RoleId = 1
 GO

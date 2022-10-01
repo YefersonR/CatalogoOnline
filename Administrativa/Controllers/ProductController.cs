@@ -26,7 +26,10 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                UserViewModel user = new UserViewModel();
+                user.HasError = true;
+                user.Error = ex.Message;
+                return Json(user);
             }
         }
         public JsonResult GetID(ProductsViewModel request)
@@ -39,7 +42,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
 
@@ -57,7 +62,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
 
@@ -71,7 +78,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                request.HasError = true;
+                request.Error = ex.Message;
+                return Json(request);
             }
         }
         [HttpPost]
@@ -84,7 +93,9 @@ namespace Administrativa.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                product.HasError = true;
+                product.Error = ex.Message;
+                return Json(product);
             }
         }
 

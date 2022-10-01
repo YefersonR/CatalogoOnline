@@ -36,16 +36,9 @@ namespace DataLayer.Repositories
                 command.Parameters.Add(new SqlParameter("@FechaCreacion", SqlDbType.DateTime) { Value = combined });
 
                 _DBConnection.OpenConnection();
-                command.ExecuteNonQuery();
+                //command.ExecuteNonQuery();
 
-                var savedUser = GetUsers().FirstOrDefault(users => users.UserName == user.UserName);
-                var command2 = _DBConnection.CreateCommand();
-                command2.CommandText = "InsertRoleToUser";
-                command2.CommandType = CommandType.StoredProcedure;
-                command2.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = savedUser.ID });
-                command2.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = user.TypeUser });
-
-                command2.ExecuteNonQuery();
+               
 
             }
             catch (Exception ex)
@@ -55,6 +48,18 @@ namespace DataLayer.Repositories
             finally
             {
                 _DBConnection.CloseConnection();
+                var savedUser = GetUsers().FirstOrDefault(users => users.UserName == user.UserName);
+
+                var command2 = _DBConnection.CreateCommand();
+                command2.CommandText = "InsertRoleToUser";
+                command2.CommandType = CommandType.StoredProcedure;
+                command2.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = savedUser.ID });
+                command2.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = user.TypeUser });
+
+                _DBConnection.OpenConnection();
+                command2.ExecuteNonQuery();
+                _DBConnection.CloseConnection();
+
             }
         }
 
@@ -89,12 +94,26 @@ namespace DataLayer.Repositories
             finally
             {
                 _DBConnection.CloseConnection();
+                if(user.TypeUser != 0)
+                {
+
+                    var command2 = _DBConnection.CreateCommand();
+                    command2.CommandText = "UpdateRoleToUser";
+                    command2.CommandType = CommandType.StoredProcedure;
+                    command2.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = user.ID });
+                    command2.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = user.TypeUser });
+
+                    _DBConnection.OpenConnection();
+                    command2.ExecuteNonQuery();
+                    _DBConnection.CloseConnection();
+                }
             }
         }
         public User Login(string UserName, string Password)
         {
             try
             {
+
                 var command = _DBConnection.CreateCommand();
                 command.CommandText = "UserLogin";
                 command.CommandType = CommandType.StoredProcedure;

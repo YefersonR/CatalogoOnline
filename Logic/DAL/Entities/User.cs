@@ -19,7 +19,8 @@ namespace Logic.DAL.Entities
         public bool IsActive { get; set; }
         public int TypeUser { get; set; }
         public string Autor { get; set; }
-
+        public bool HasError{ get; set; }
+        public string Error { get; set; }
 
     }
 }

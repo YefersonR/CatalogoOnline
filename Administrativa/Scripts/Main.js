@@ -1,11 +1,11 @@
 ﻿//User
 
-    async function UserHome() {
+async function UserHome() {
         var url = "/User/List"
         try {
             var getDataUser = await GetAjaxResult(url)
             getDataUser = JSON.parse(getDataUser)
-            if (getDataUser != null) {
+            if (getDataUser.length != 0 && getDataUser.HasError != true) {
                 $.map(getDataUser, (result) => {
                     $("#Card").append(
                         "<div class='CardContainer'>" +
@@ -25,72 +25,78 @@
                 })
             }
             else {
-                $("#Categories").append("<h1>No Categories found</h1>")
+                $("#Card").empty()
+                $("#Card").append("<h1>No Categories found</h1>")
             }
         }
         catch (error) {
             console.error(error)
         }
     }
-    async function ProductHome() {
-        var url = "/Product/List"
+async function ProductHome() {
+    var url = "/Product/List"
+
+    try {
+        var getDataProduct = await GetAjaxResult(url)
+        getDataProduct = JSON.parse(getDataProduct)
+        if (getDataProduct.length != 0 && getDataProduct.HasError != true) {
+            $.map(getDataProduct, (result) => {
+                $("#Card").append(
+                    "<div class='CardContainer'>" +
+                    "<h3>" + result.ProductName + "</h3>" +
+                    "<div class='d-flex justify-content-between'>" +
+                    "<p class='card-text'> Price:" + result.UnitPrice + "</p>" +
+                    "<small class='fw-bold'></small>" +
+                    "</div>" +
+                    "<div class='d-flex justify-content-between'>" +
+                    "<small class='fw-bold'> In Stock:" + result.UnitInStock + "</small> <br>" +
+                    "<small class='fw-bold'> Garantie:" + result.Garantie + "</small>" +
+                    "<small class='fw-bold'> Garantie:" + result.Discontinued + "</small>" +
+                    "</div>" +
+                    "<div class='btn-group'>" +
+                    "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='GetProductbyID(" + result.ID + ")'>Edit</button>" +
+                    "<a class='btn btn-danger' onclick='DeleteProduct(" + result.ID + ")'>Borrar</a>" +
+                    "</div>"
+                )
+            })
+        }
+        else {
+            $("#Card").empty()
+            $("#Card").append("<h1>No Categories found</h1>")
+        }
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
+async function GetCategoriesToCreateProduct() {
+    try {
         var urlCategory = "/Category/List"
 
-        try {
-            var getDataProduct = await GetAjaxResult(url)
-            getDataProduct = JSON.parse(getDataProduct)
-            if (getDataProduct != null) {
-                $.map(getDataProduct, (result) => {
-                        $("#Card").append(
-                            "<div class='CardContainer'>" +
-                            "<h3>" + result.ProductName + "</h3>" +
-                            "<div class='d-flex justify-content-between'>" +
-                            "<p class='card-text'> Price:" + result.UnitPrice + "</p>" +
-                            "<small class='fw-bold'></small>" +
-                            "</div>" +
-                            "<div class='d-flex justify-content-between'>" +
-                            "<small class='fw-bold'> In Stock:" + result.UnitInStock + "</small> <br>" +
-                            "<small class='fw-bold'> Garantie:" + result.Garantie + "</small>" +
-                            "<small class='fw-bold'> Garantie:" + result.Discontinued + "</small>" +
-                            "</div>" +
-                            "<div class='btn-group'>" +
-                            "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='GetProductbyID(" + result.ID + ")'>Edit</button>" +
-                            "<a class='btn btn-danger' onclick='DeleteProduct(" + result.ID + ")'>Borrar</a>" +
-                            "</div>"
-                    )
-                })
-            }
-            else {
-                $("#Categories").append("<h1>No Categories found</h1>")
-            }
+        var getCategories = await GetAjaxResult(urlCategory)
+        getCategories = JSON.parse(getCategories)
+        if (getCategories.length != 0 && getCategories.HasError != true) {
+            $.map(getCategories, (result) => {
+                $("#Categories").append(
+                    "<option value=" + result.ID + ">" + result.CategoryName + "</option > "
+                )
+            })
         }
-        catch (error) {
-            console.error(error)
-        }
-        try {
-            var getCategories = await GetAjaxResult(urlCategory)
-            getCategories = JSON.parse(getCategories)
-            if (getCategories != null) {
-                $.map(getCategories, (result) => {
-                    $("#Categories").append(
-                        "<option value=" + result.ID + ">" + result.CategoryName + "</option > "
-                    )
-                })
-            }
-            else {
-                $("#Categories").append("<h1>No Categories found</h1>")
-            }
-        }
-        catch (error) {
-            console.error(error)
+        else {
+            $("#Categories").empty()
+            $("#Categories").append("<h1>No Categories found</h1>")
         }
     }
-    async function CategoryHome() {
+    catch (error) {
+        console.error(error)
+    }
+}
+async function CategoryHome() {
         var url = "/Category/List"
         try {
             var getDataCategories = await GetAjaxResult(url)
             getDataCategories = JSON.parse(getDataCategories)
-            if (getDataCategories != null) {
+            if (getDataCategories.length != 0 && getDataCategories.HasError != true) {
                 $.map(getDataCategories, (result) => {
                     $("#Card").append(
                         "<div class='CardContainer'>" +
@@ -110,13 +116,16 @@
                 })
             }
             else {
-                $("#Categories").append("<h1>No Categories found</h1>")
+                $("#Card").empty()
+                $("#Card").append("<h1>No Categories found</h1>")
             }
         }
         catch (error) {
             console.error(error)
         }
-    }
+}
+
+
 function DeleteUser(ID) {
     var userModel = {
         "ID": ID
